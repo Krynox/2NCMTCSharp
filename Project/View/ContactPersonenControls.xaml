@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="Project.View.ContactPersonenControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1500" Height="700">
+    <StackPanel>
+        <WrapPanel Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource OptionMenu}">
+            <Button Style="{StaticResource OptionMenuItem}" Content="Contactpersoon Verwijderen" Name="BtnContactVerwijderen" Command="{Binding ContactDeleteCommand}" />
+            <Button Style="{StaticResource OptionMenuItem}" Content="Contactpersoon Wijzigen" Name="BtnContactWijzigen" Command="{Binding EditMenuClick}" />
+            <Button Style="{StaticResource OptionMenuItem}" Content="Contactpersoon Toevoegen" Name="BtnContactToevoegen"  Command="{Binding AddMenuClick}"/>
+            <Button Name="BtnZoek" Style="{StaticResource OptionMenuItem}" Content="Zoek" Command="{Binding ZoekClick}"/>
+            <Button Content="Close" Style="{StaticResource Zoek}" Visibility="{Binding CloseVis}" Name="btnClose" Command="{Binding CloseClick}"/>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource ZoekMenu}"  Name="ZoekMenuWrap" Height="{Binding MenuZoekHeight}">
+            <Grid Style="{StaticResource InnerWrapGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Zoek" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource SubTitle}"/>
+                <TextBlock Text="Naam" Grid.Column="0" Grid.Row="1" Style="{StaticResource ZoekLabels}" />
+                <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}" Text="{Binding ContactName}"/>
+                <TextBlock Text="Functie" Grid.Column="0" Grid.Row="2" Style="{StaticResource ZoekLabels}" />
+                <ComboBox Text="Kies een Funtie" Grid.Column="1" ItemsSource="{Binding TypeList}" DisplayMemberPath="Name" Grid.Row="2" Style="{StaticResource CboZoek}" SelectedItem="{Binding ContactJobRole}" />
+                <TextBlock Text="Bedrijf" Grid.Column="0" Grid.Row="3" Style="{StaticResource ZoekLabels}"/>
+                <TextBox  Grid.Column="1" Grid.Row="3" Style="{StaticResource TextZoek}"  Text="{Binding ContactCompany}"/>
+                <Button Content="Zoek" Grid.Column="1" Grid.Row="4"  Style="{StaticResource ZoekButton}"  Command="{Binding ContactSearchCommand}"/>
+            </Grid>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource AddMenu}" Name="AddMenuWrap" Height="{Binding MenuHeightAdd}">
+            <Grid Style="{StaticResource InnerWrapGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="6*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Toevoegen" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource SubTitle}" Visibility="{Binding AddControls}"/>
+                <TextBlock Text="Wijzigen" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"  Style="{StaticResource SubTitle}" Visibility="{Binding EditControls}"/>
+                <TextBlock Text="Naam" Grid.Column="0" Grid.Row="1" Style="{StaticResource ZoekLabels}" />
+                <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource TextZoek}" Text="{Binding ContactName}"/>
+                <TextBlock Text="Functie" Grid.Column="0" Grid.Row="2" Style="{StaticResource ZoekLabels}"/>
+                <ComboBox Text="Kies een funtie" Grid.Column="1" Grid.Row="2" Style="{StaticResource CboZoek}" ItemsSource="{Binding TypeList}" DisplayMemberPath="Name" SelectedItem="{Binding ContactJobRole}"  Name="cboJobRole"/>
+                <Button Content="Toevoegen" Grid.Column="2" Grid.Row="2" Style="{StaticResource ZoekButton}"/>
+                <TextBlock Text="E-Mail" Grid.Column="0" Grid.Row="3" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource TextZoek}" Text="{Binding ContactEmail}"/>
+                <TextBlock Text="Stad" Grid.Column="0" Grid.Row="4" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource TextZoek}" Text="{Binding ContactCity}"/>
+                <TextBlock Text="Telefoon" Grid.Column="0" Grid.Row="5" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource TextZoek}" Text="{Binding ContactPhone}"/>
+                <TextBlock Text="GSM" Grid.Column="0" Grid.Row="6" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource TextZoek}" Text="{Binding ContactCellPhone}"/>
+                <TextBlock Text="Company" Grid.Column="0" Grid.Row="7" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource TextZoek}" Text="{Binding ContactCompany}"/>
+                <Button Content="Opslaan" Grid.Column="2" Grid.Row="8" Style="{StaticResource ZoekButton}" Command="{Binding ContactAddCommand}" Visibility="{Binding AddControls}"/>
+                <Button Content="Opslaan" Grid.Column="2" Grid.Row="8" Style="{StaticResource ZoekButton}" Command="{Binding ContactEditCommand}" Visibility="{Binding EditControls}"/>
+            </Grid>
+        </WrapPanel>
+        <ListView x:Name="lstContact" ItemsSource="{Binding ContactList}"  SelectedItem="{Binding SelectedContact}" Grid.Column="0" Grid.Row="0" Background="#FF95ceee" BorderThickness="0" Style="{StaticResource ListViewStyle}">
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderId}" Header="ID" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Naam" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Bedrijf" DisplayMemberBinding="{Binding Company}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Stad" DisplayMemberBinding="{Binding City}"/>
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="E-Mail" DisplayMemberBinding="{Binding Email}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Functie" DisplayMemberBinding="{Binding JobRole.Name}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Telefoon" DisplayMemberBinding="{Binding Phone}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="GSM" DisplayMemberBinding="{Binding CellPhone}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
+</UserControl>

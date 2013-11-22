@@ -1,0 +1,51 @@
+﻿<Window x:Class="Project.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Project.ViewModel"
+        xmlns:v="clr-namespace:Project.View"
+        Title="Electronic-Rampage" Height="900" Width="1600">
+    <Window.DataContext>
+        <vm:ApplicationVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:ContactPersonenViewModel}">
+            <v:ContactPersonenControls/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LineUpViewModel}">
+            <v:LineUpControls/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TicketingViewModel}">
+            <v:TicketingControls/>
+        </DataTemplate>
+
+
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="txbLogo" Grid.Row="0" Grid.ColumnSpan="3"  Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource Logo}">Electronic Rampage</TextBlock>
+        <ItemsControl ItemsSource="{Binding Pages}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal">
+                    </StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{StaticResource Menu}" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ContentControl Content="{Binding CurrentPage}" Grid.Column="1" Grid.Row="2"/>
+    </Grid>
+</Window>

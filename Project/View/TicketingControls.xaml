@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Project.View.TicketingControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1500">
+        <StackPanel>
+        <WrapPanel Style="{StaticResource OptionMenuTicketType}">
+            <Grid Grid.Column="2" Grid.Row="0" Width="1500">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Aantal Tickets Vrij:" Style="{StaticResource TicketingSubTitles}"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="TxbAantalVrij" Text="{Binding SelectedType.AvailableTickets}" Style="{StaticResource TicketingAantal}"/>
+                <ComboBox Grid.Column="2"  ItemsSource="{Binding TicketTypeList}" Text="{Binding TicketTypeList.Name}"  Style="{StaticResource TicketType}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedType}" />
+                <Button Grid.Column="3" Content="Add" Style="{StaticResource AddTicket}"/>
+            </Grid>
+        </WrapPanel>
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource OptionMenu}">
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Toevoegen" Name="BtnReserveringToevoegen" Click="BtnReserveringToevoegen_Click"/>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Wijzigen" Name="BtnReserveringWijzigen" Click="BtnReserveringWijzigen_Click" />
+            <Button Style="{StaticResource Zoek}" Name="BtnZoek" Click="BtnZoek_Click" >Zoeken</Button>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource ZoekMenu}"  Name="ZoekMenuWrap">
+            <Grid Style="{StaticResource InnerWrapGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Zoek" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource SubTitle}"/>
+                <TextBlock Text="Naam" Grid.Column="0" Grid.Row="1" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}"/>
+                <TextBlock Text="Functie" Grid.Column="0" Grid.Row="2" Style="{StaticResource ZoekLabels}"/>
+                <ComboBox Text="Kies een funtie" Grid.Column="1" Grid.Row="2" Style="{StaticResource CboZoek}"/>
+                <TextBlock Text="Bedrijf" Grid.Column="0" Grid.Row="3" Style="{StaticResource ZoekLabels}"/>
+                <ComboBox Text="Kies een funtie" Grid.Column="1" Grid.Row="3" Style="{StaticResource CboZoek}"/>
+            </Grid>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource AddMenu}" Name="AddMenuWrap">
+            <Grid Style="{StaticResource InnerWrapGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Toevoegen" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource SubTitle}"/>
+                <TextBlock Text="Wijzigen" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"  Style="{StaticResource SubTitle}" Visibility="Hidden"/>
+                <TextBlock Text="Naam" Grid.Column="0" Grid.Row="1" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}"/>
+                <TextBlock Text="Functie" Grid.Column="0" Grid.Row="2" Style="{StaticResource ZoekLabels}"/>
+                <ComboBox Text="Kies een funtie" Grid.Column="1" Grid.Row="2" Style="{StaticResource CboZoek}"/>
+                <Button Content="Toevoegen" Grid.Column="2" Grid.Row="2" Style="{StaticResource ZoekButton}"/>
+                <TextBlock Text="E-Mail" Grid.Column="0" Grid.Row="3" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}"/>
+                <TextBlock Text="Stad" Grid.Column="0" Grid.Row="4" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}"/>
+                <TextBlock Text="Telefoon" Grid.Column="0" Grid.Row="5" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}"/>
+                <TextBlock Text="GSM" Grid.Column="0" Grid.Row="6" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}"/>
+                <Button Content="Opslaan" Grid.Column="2" Grid.Row="7" Style="{StaticResource ZoekButton}" Command="{Binding ContactAddCommand}"/>
+                <Button Content="Opslaan" Grid.Column="2" Grid.Row="7" Style="{StaticResource ZoekButton}" Command="{Binding ContactEditCommand}" Visibility="Hidden"/>
+            </Grid>
+        </WrapPanel>
+        <ListView x:Name="lstContact" ItemsSource="{Binding ContactList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"  Background="#FF95ceee" BorderThickness="0" Style="{StaticResource ListViewStyle}">
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderId}" Header="ID" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Naam" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Email" DisplayMemberBinding="{Binding Company}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Type" DisplayMemberBinding="{Binding City}"/>
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Aantal" DisplayMemberBinding="{Binding Email}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
+</UserControl>
