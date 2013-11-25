@@ -33,7 +33,7 @@ namespace Project.ViewModel
         public ObservableCollection<ContactpersonType> TypeList
         {
             get { return _typeList; }
-            set { _typeList = value; }
+            set { _typeList = value; OnPropertyChanged("TypeList"); }
         }
         private ObservableCollection<Contactperson> contactList;
         public ObservableCollection<Contactperson> ContactList
@@ -52,10 +52,32 @@ namespace Project.ViewModel
             get { return _selectedContact; }
             set { _selectedContact = value; }
         }
-        
+        private ContactpersonType _selectedType;
+
+        public ContactpersonType SelectedType
+        {
+            get { return _selectedType; }
+            set { _selectedType = value; OnPropertyChanged("SelectedType"); }
+        }
         #endregion
 
         #region FormWaarden
+        private string _functieTypeAddText;
+
+        public string FunctieTypeAddText
+        {
+            get { return _functieTypeAddText; }
+            set { _functieTypeAddText = value; OnPropertyChanged("FunctieTypeAddText"); }
+        }
+        
+        private string _contactTypeAdd;
+
+        public string ContactTypeAdd
+        {
+            get { return _contactTypeAdd; }
+            set { _contactTypeAdd = value; OnPropertyChanged("ContactTypeAdd"); }
+        }
+        
         private string _contactName;
 
         public string ContactName
@@ -108,6 +130,45 @@ namespace Project.ViewModel
         #endregion
 
         #region Controls
+        private string _editTypeKnop;
+
+        public string EditTypeKnop
+        {
+            get { return _editTypeKnop; }
+            set { _editTypeKnop = value; OnPropertyChanged("EditTypeKnop"); }
+        }
+        private string _addTypeKnop;
+
+        public string AddTypeKnop
+        {
+            get { return _addTypeKnop; }
+            set { _addTypeKnop = value; OnPropertyChanged("AddTypeKnop"); }
+        }
+        
+        private string _addTypeVis;
+
+        public string AddTypeVis
+        {
+            get { return _addTypeVis; }
+            set { _addTypeVis = value; OnPropertyChanged("AddTypeVis"); }
+        }
+        
+        private int _functieMenuHeight;
+
+        public int FunctieMenuHeight
+        {
+            get { return _functieMenuHeight; }
+            set { _functieMenuHeight = value; OnPropertyChanged("FunctieMenuHeight"); }
+        }
+        
+        private string _addType;
+
+        public string AddType
+        {
+            get { return _addType; }
+            set { _addType = value; OnPropertyChanged("AddType"); }
+        }
+        
         private string _addControls;
 
         public string AddControls
@@ -145,6 +206,7 @@ namespace Project.ViewModel
         {
             MenuHeightAdd = 0;
             MenuZoekHeight = 0;
+            FunctieMenuHeight = 0;
             CloseVis = "Hidden";
             ContactName = "";
             ContactCompany = "";
@@ -154,10 +216,113 @@ namespace Project.ViewModel
             ContactPhone = "";
             ContactCellPhone = "";
         }
+        public ICommand FunctieClick
+        {
+            get
+            { return new RelayCommand(OpenFunctie); }
+        }
+        public ICommand AddTypeClick
+        {
+            get
+            { return new RelayCommand(AddTypeControl); }
+        }
+        public ICommand EditTypeClick
+        {
+            get
+            { return new RelayCommand(EditType); }
+        }
+        public ICommand EditTypeClickOpslaan
+        {
+            get
+            { return new RelayCommand(EditTypeOpslaan); }
+        }
+        public ICommand AddTypeClickOpslaan
+        {
+            get
+            { return new RelayCommand(AddTypeOpslaan); }
+        }
+        private void AddTypeOpslaan()
+        {
+            ContactpersonType.AddContact(FunctieTypeAddText);
+            AddTypeVis = "Hidden";
+            TypeList = ContactpersonType.GetTypes();
+        }
+        private void EditTypeOpslaan()
+        {
+            ContactpersonType.EditType(SelectedType, FunctieTypeAddText);
+            AddTypeVis = "Hidden";
+            TypeList = ContactpersonType.GetTypes();
+        }
+        private void EditType()
+        {
+            if (SelectedType != null)
+            {
+                AddTypeVis = "Visible";
+                EditTypeKnop = "Visible";
+                AddTypeKnop = "Hidden";
+                FunctieTypeAddText = SelectedType.Name.Trim();
+            }
+        }
+        private void AddTypeControl()
+        {
+            AddTypeVis = "Visible";
+            EditTypeKnop = "Hidden";
+            AddTypeKnop = "Visible";
+            FunctieTypeAddText = "";
+        }
+        public ICommand VerwijderTypeClick
+        {
+            get
+            { return new RelayCommand(VerwijderType); }
+        }
+        private void VerwijderType()
+        {
+            if (SelectedType != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Wil je " + SelectedType.Name.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    string message=ContactpersonType.DeleteFunctie(SelectedType);
+                    if (message != null)
+                    {
+                        MessageBox.Show(message);
+                    }
+                    TypeList = ContactpersonType.GetTypes();
+                }
+            }
+        }
+        private void OpenFunctie()
+        {
+            CloseClickAll();
+            FunctieMenuHeight = 300;
+            CloseVis = "Visible";
+            AddTypeVis = "Hidden";
+        
+        }
         public ICommand CloseClick
         {
             get
             { return new RelayCommand(CloseClickAll); }
+        }
+        public ICommand TypeAddCommand
+        {
+            get
+            { return new RelayCommand(TypeAddShow); }
+        }
+        private void TypeAddShow()
+        {
+            AddType = "Visible";
+        }
+        public ICommand AddContactType
+        {
+            get
+            { return new RelayCommand(ContactTypeToevoegen); }
+        }
+        private void ContactTypeToevoegen()
+        {
+            ContactpersonType.AddContact(ContactTypeAdd);
+            AddType = "Hidden";
+            TypeList=ContactpersonType.GetTypes();
         }
         public ICommand AddMenuClick
         {
@@ -171,6 +336,7 @@ namespace Project.ViewModel
             AddControls = "Visible";
             EditControls = "Hidden";
             CloseVis = "Visible";
+            AddType = "Hidden";
 
         }
         public ICommand EditMenuClick
@@ -187,6 +353,7 @@ namespace Project.ViewModel
                 AddControls = "Hidden";
                 EditControls = "Visible";
                 CloseVis = "Visible";
+                AddType = "Hidden";
                 ContactName = SelectedContact.Name.Trim();
                 ContactCompany = SelectedContact.Company.Trim();
                 ContactCity = SelectedContact.City.Trim();
@@ -194,7 +361,6 @@ namespace Project.ViewModel
                 ContactJobRole = SelectedContact.JobRole;
                 ContactPhone = SelectedContact.Phone.Trim();
                 ContactCellPhone = SelectedContact.CellPhone.Trim();
-
             }
         }
         public ICommand ZoekClick

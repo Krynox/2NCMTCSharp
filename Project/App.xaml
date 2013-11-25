@@ -112,6 +112,32 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="OptionType" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FFFF8400"/>
+            <Setter Property="Foreground" Value="#FFFFFFFF"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                            BorderThickness="0"
+                            BorderBrush="#FFFFFFFF" 
+                            CornerRadius="0" 
+                            Background="{TemplateBinding Background}">
+                            <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="ZoekButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#FFFF8400"/>
             <Setter Property="Foreground" Value="#FFFFFFFF"/>
@@ -138,7 +164,7 @@
             </Setter>
         </Style>
         <Style x:Key="Zoek" TargetType="{x:Type Button}">
-            <Setter Property="Margin" Value="450,8,0,0"/>
+            <Setter Property="Margin" Value="100,8,0,0"/>
             <Setter Property="Background" Value="#FFFF9119"/>
             <Setter Property="Foreground" Value="#FFFFFFFF"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -224,6 +250,10 @@
             <Setter Property="Padding" Value="0,5,0,0"/>
             <Setter Property="Width" Value="200"/>
         </Style>
+        <Style x:Key="AddTypeGrid" TargetType="{x:Type Grid}">
+            <Setter Property="Width" Value="400"/>
+            <Setter Property="Height" Value="150"/>
+        </Style>
         <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
             <Setter Property="Background" Value="#FF95ceee"/>
             <Setter Property="Height" Value="500"/>
@@ -306,7 +336,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>  
         <Style x:Key="GridViewHeaderTickets" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Background" Value="#FF95ceee"/>
             <Setter Property="Foreground" Value="#FFFFFFFF"/>
@@ -317,5 +347,4 @@
             <Setter Property="Width" Value="370"/>
         </Style>
     </Application.Resources>
-
 </Application>

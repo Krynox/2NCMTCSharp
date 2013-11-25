@@ -35,5 +35,27 @@ namespace Project
                 Name = db["JobRole"].ToString()
             };
         }
+        public static void AddContact(string _contacttypename)
+        { 
+            Database.ModifyData("INSERT INTO tbl_contactType (JobRole) VALUES(@name)",Database.AddParameter("@name",_contacttypename));
+        }
+        public static void EditType(ContactpersonType s,string _name)
+        {
+            Database.ModifyData("UPDATE tbl_contactType SET JobRole=@name WHERE ID=@id", Database.AddParameter("@id", Convert.ToInt32(s.ID)), Database.AddParameter("@name", _name));
+        }
+        public static string DeleteFunctie(ContactpersonType s)
+        { 
+           DbDataReader reader= Database.GetData("SELECT * FROM tbl_contacts,tbl_contactType WHERE tbl_contactType.ID=tbl_contacts.JobRole AND tbl_contactType.JobRole=@name",Database.AddParameter("@name",s.Name));
+           if (reader.HasRows)
+           {
+               return "Gelieve eerste alle Contactpersonen met deze functie te verwijderen";
+           }
+           else
+           {
+               Database.ModifyData("DELETE FROM tbl_contactType WHERE ID=@id",Database.AddParameter("@id",Convert.ToInt32(s.ID)));
+           }
+           return null;
+
+        }
     }
 }

@@ -28,9 +28,7 @@
             <RowDefinition Height="7*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="txbLogo" Grid.Row="0" Grid.ColumnSpan="3"  Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource Logo}">Electronic Rampage</TextBlock>
         <ItemsControl ItemsSource="{Binding Pages}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" >
@@ -46,6 +44,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ContentControl Content="{Binding CurrentPage}" Grid.Column="1" Grid.Row="2"/>
+        <ContentControl Content="{Binding CurrentPage}" Grid.Column="0" Grid.Row="2"/>
     </Grid>
 </Window>
