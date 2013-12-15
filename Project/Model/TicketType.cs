@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Project.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,23 +20,25 @@ namespace Project
 
         public static ObservableCollection<TicketType> GetTicketTypes()
         {
-            ObservableCollection<TicketType> contacts = new ObservableCollection<TicketType>();
-            StreamReader sr = new StreamReader("TicketType.csv");
-
-            string lijn = "";
-            while ((lijn = sr.ReadLine()) != null)
+            ObservableCollection<TicketType> type = new ObservableCollection<TicketType>();
+            DbDataReader reader = Database.GetData("SELECT * FROM tbl_ticketType");
+            foreach (IDataRecord db in reader)
             {
-                string[] strLijn = lijn.Split(';');
-                TicketType ct = new TicketType();
-                ct.ID = strLijn[0];
-                ct.Name = strLijn[1];
-                ct.Price = Convert.ToDouble(strLijn[2]);
-                ct.AvailableTickets = Convert.ToInt32(strLijn[3]);
-                contacts.Add(ct);
+                type.Add(Create(db));
             }
-            sr.Close();
+            return type;
 
-            return contacts;
+        }
+
+        private static TicketType Create(IDataRecord record)
+        {
+            return new TicketType()
+            {
+                ID = record["ID"].ToString(),
+                Name = record["TicketName"].ToString(),
+                Price = Convert.ToDouble(record["Price"].ToString()),
+                AvailableTickets = Convert.ToInt32(record["Available"].ToString()),
+            };
         }
     }
     

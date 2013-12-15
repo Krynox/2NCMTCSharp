@@ -86,14 +86,16 @@
                 <Button Content="Opslaan" Grid.Column="2" Grid.Row="7" Style="{StaticResource ZoekButton}" Command="{Binding ContactEditCommand}" Visibility="Hidden"/>
             </Grid>
         </WrapPanel>
-        <ListView x:Name="lstContact" ItemsSource="{Binding ContactList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"  Background="#FF95ceee" BorderThickness="0" Style="{StaticResource ListViewStyle}">
+        <ListView x:Name="lstContact" ItemsSource="{Binding TicketList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"  Background="#FF95ceee" BorderThickness="0" Style="{StaticResource ListViewStyle}">
             <ListView.View>
                 <GridView >
                     <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderId}" Header="ID" DisplayMemberBinding="{Binding ID}" />
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Naam" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Email" DisplayMemberBinding="{Binding Company}" />
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Type" DisplayMemberBinding="{Binding City}"/>
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Aantal" DisplayMemberBinding="{Binding Email}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Naam" DisplayMemberBinding="{Binding TicketHolder}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Email" DisplayMemberBinding="{Binding TicketHolderEmail}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Type" DisplayMemberBinding="{Binding TicketType.Name}"/>
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Aantal" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Datum" DisplayMemberBinding="{Binding OrderDate}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Naam reservering" DisplayMemberBinding="{Binding EntryName}" />
                 </GridView>
             </ListView.View>
         </ListView>

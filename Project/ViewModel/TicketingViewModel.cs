@@ -16,7 +16,16 @@ namespace Project.ViewModel
         public TicketingViewModel()
         {
             TicketTypeList = TicketType.GetTicketTypes();
+            TicketList = Ticket.GetTickets();
         }
+        private ObservableCollection<Ticket> _ticketList;
+
+        public ObservableCollection<Ticket> TicketList
+        {
+            get { return _ticketList; }
+            set { _ticketList = value; OnPropertyChanged("TicketList"); }
+        }
+        
         private ObservableCollection<TicketType> ticketTypeList;
 
         public ObservableCollection<TicketType> TicketTypeList

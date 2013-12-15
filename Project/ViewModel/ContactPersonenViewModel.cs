@@ -20,6 +20,7 @@ namespace Project.ViewModel
         }
         public ContactPersonenViewModel()
         {
+            _formContact = new Contactperson();
             ContactList = Contactperson.GetContactPersons();
             TypeList = ContactpersonType.GetTypes();
             AddControls = "Visible";
@@ -33,7 +34,7 @@ namespace Project.ViewModel
         public ObservableCollection<ContactpersonType> TypeList
         {
             get { return _typeList; }
-            set { _typeList = value; }
+            set { _typeList = value; OnPropertyChanged("TypeList"); }
         }
         private ObservableCollection<Contactperson> contactList;
         public ObservableCollection<Contactperson> ContactList
@@ -50,64 +51,83 @@ namespace Project.ViewModel
         public Contactperson SelectedContact
         {
             get { return _selectedContact; }
-            set { _selectedContact = value; }
+            set { _selectedContact = value; OnPropertyChanged("SelectedContact"); }
         }
-        
+        private ContactpersonType _selectedType;
+
+        public ContactpersonType SelectedType
+        {
+            get { return _selectedType; }
+            set { _selectedType = value; OnPropertyChanged("SelectedType"); }
+        }
         #endregion
 
         #region FormWaarden
-        private string _contactName;
+        private Contactperson _formContact;
 
-        public string ContactName
+        public Contactperson FormContact
         {
-            get { return _contactName; }
-            set { _contactName = value; OnPropertyChanged("ContactName"); }
+            get { return _formContact; }
+            set { _formContact = value;  OnPropertyChanged("FormContact");}
         }
-        private string _contactCompany;
+        
+        private string _functieTypeAddText;
 
-        public string ContactCompany
+        public string FunctieTypeAddText
         {
-            get { return _contactCompany; }
-            set { _contactCompany = value; OnPropertyChanged("ContactCompany"); }
+            get { return _functieTypeAddText; }
+            set { _functieTypeAddText = value; OnPropertyChanged("FunctieTypeAddText"); }
         }
-        private string _contactCity;
+        
+        private string _contactTypeAdd;
 
-        public string ContactCity
+        public string ContactTypeAdd
         {
-            get { return _contactCity; }
-            set { _contactCity = value; OnPropertyChanged("ContactCity"); }
-        }
-        private string _contactEmail;
-
-        public string ContactEmail
-        {
-            get { return _contactEmail; }
-            set { _contactEmail = value; OnPropertyChanged("ContactEmail"); }
-        }
-        private string _contactPhone;
-
-        public string ContactPhone
-        {
-            get { return _contactPhone; }
-            set { _contactPhone = value; OnPropertyChanged("ContactPhone"); }
-        }
-        private string _contactCellPhone;
-
-        public string ContactCellPhone
-        {
-            get { return _contactCellPhone; }
-            set { _contactCellPhone = value; OnPropertyChanged("ContactCellPhone"); }
-        }
-        private ContactpersonType _contactJobRole;
-
-        public ContactpersonType ContactJobRole
-        {
-            get { return _contactJobRole; }
-            set { _contactJobRole = value; OnPropertyChanged("ContactJobRole");}
+            get { return _contactTypeAdd; }
+            set { _contactTypeAdd = value; OnPropertyChanged("ContactTypeAdd"); }
         }
         #endregion
 
         #region Controls
+        private string _editTypeKnop;
+
+        public string EditTypeKnop
+        {
+            get { return _editTypeKnop; }
+            set { _editTypeKnop = value; OnPropertyChanged("EditTypeKnop"); }
+        }
+        private string _addTypeKnop;
+
+        public string AddTypeKnop
+        {
+            get { return _addTypeKnop; }
+            set { _addTypeKnop = value; OnPropertyChanged("AddTypeKnop"); }
+        }
+        
+        private string _addTypeVis;
+
+        public string AddTypeVis
+        {
+            get { return _addTypeVis; }
+            set { _addTypeVis = value; OnPropertyChanged("AddTypeVis"); }
+        }
+        
+        private int _functieMenuHeight;
+
+        public int FunctieMenuHeight
+        {
+            get { return _functieMenuHeight; }
+            set { _functieMenuHeight = value; OnPropertyChanged("FunctieMenuHeight"); }
+        }
+        
+        private string _addType;
+
+        public string AddType
+        {
+            get { return _addType; }
+            set { _addType = value; OnPropertyChanged("AddType"); }
+        }
+        
         private string _addControls;
 
         public string AddControls
@@ -145,19 +165,123 @@ namespace Project.ViewModel
         {
             MenuHeightAdd = 0;
             MenuZoekHeight = 0;
+            FunctieMenuHeight = 0;
             CloseVis = "Hidden";
-            ContactName = "";
-            ContactCompany = "";
-            ContactCity = "";
-            ContactEmail = "";
-            ContactJobRole = null;
-            ContactPhone = "";
-            ContactCellPhone = "";
+            FormContact.Name = "";
+            FormContact.Company = "";
+            FormContact.City = "";
+            FormContact.Email = "";
+            FormContact.JobRole = null;
+            FormContact.Phone = "";
+            FormContact.CellPhone = "";
+        }
+        public ICommand FunctieClick
+        {
+            get
+            { return new RelayCommand(OpenFunctie); }
+        }
+        public ICommand AddTypeClick
+        {
+            get
+            { return new RelayCommand(AddTypeControl); }
+        }
+        public ICommand EditTypeClick
+        {
+            get
+            { return new RelayCommand(EditType); }
+        }
+        public ICommand EditTypeClickOpslaan
+        {
+            get
+            { return new RelayCommand(EditTypeOpslaan); }
+        }
+        public ICommand AddTypeClickOpslaan
+        {
+            get
+            { return new RelayCommand(AddTypeOpslaan); }
+        }
+        private void AddTypeOpslaan()
+        {
+            ContactpersonType.AddContact(FunctieTypeAddText);
+            AddTypeVis = "Hidden";
+            TypeList = ContactpersonType.GetTypes();
+        }
+        private void EditTypeOpslaan()
+        {
+            ContactpersonType.EditType(SelectedType, FunctieTypeAddText);
+            AddTypeVis = "Hidden";
+            TypeList = ContactpersonType.GetTypes();
+        }
+        private void EditType()
+        {
+            if (SelectedType != null)
+            {
+                AddTypeVis = "Visible";
+                EditTypeKnop = "Visible";
+                AddTypeKnop = "Hidden";
+                FunctieTypeAddText = SelectedType.Name.Trim();
+            }
+        }
+        private void AddTypeControl()
+        {
+            AddTypeVis = "Visible";
+            EditTypeKnop = "Hidden";
+            AddTypeKnop = "Visible";
+            FunctieTypeAddText = "";
+        }
+        public ICommand VerwijderTypeClick
+        {
+            get
+            { return new RelayCommand(VerwijderType); }
+        }
+        private void VerwijderType()
+        {
+            if (SelectedType != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Wil je " + SelectedType.Name.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    string message=ContactpersonType.DeleteFunctie(SelectedType);
+                    if (message != null)
+                    {
+                        MessageBox.Show(message);
+                    }
+                    TypeList = ContactpersonType.GetTypes();
+                }
+            }
+        }
+        private void OpenFunctie()
+        {
+            CloseClickAll();
+            FunctieMenuHeight = 300;
+            CloseVis = "Visible";
+            AddTypeVis = "Hidden";
+        
         }
         public ICommand CloseClick
         {
             get
             { return new RelayCommand(CloseClickAll); }
+        }
+        public ICommand TypeAddCommand
+        {
+            get
+            { return new RelayCommand(TypeAddShow); }
+        }
+        private void TypeAddShow()
+        {
+            AddType = "Visible";
+        }
+        public ICommand AddContactType
+        {
+            get
+            { return new RelayCommand(ContactTypeToevoegen); }
+        }
+        private void ContactTypeToevoegen()
+        {
+            ContactpersonType.AddContact(ContactTypeAdd);
+            AddType = "Hidden";
+            TypeList=ContactpersonType.GetTypes();
         }
         public ICommand AddMenuClick
         {
@@ -171,36 +295,35 @@ namespace Project.ViewModel
             AddControls = "Visible";
             EditControls = "Hidden";
             CloseVis = "Visible";
+            AddType = "Hidden";
 
         }
         public ICommand EditMenuClick
         {
-            get
-            { return new RelayCommand(EditMenu); }
+            get { return new RelayCommand(EditMenu); }
         }
         private void EditMenu()
         {
             if (SelectedContact != null)
             {
-                CloseClickAll();
+                //CloseClickAll();
                 MenuHeightAdd = 400;
                 AddControls = "Hidden";
                 EditControls = "Visible";
                 CloseVis = "Visible";
-                ContactName = SelectedContact.Name.Trim();
-                ContactCompany = SelectedContact.Company.Trim();
-                ContactCity = SelectedContact.City.Trim();
-                ContactEmail = SelectedContact.Email.Trim();
-                ContactJobRole = SelectedContact.JobRole;
-                ContactPhone = SelectedContact.Phone.Trim();
-                ContactCellPhone = SelectedContact.CellPhone.Trim();
-
+                AddType = "Hidden";
+                FormContact.Name = SelectedContact.Name.Trim();
+                FormContact.Company = SelectedContact.Company.Trim();
+                FormContact.City = SelectedContact.City.Trim();
+                FormContact.Email = SelectedContact.Email.Trim();
+                FormContact.JobRole = SelectedContact.JobRole;
+                FormContact.Phone = SelectedContact.Phone.Trim();
+                FormContact.CellPhone = SelectedContact.CellPhone.Trim();
             }
         }
         public ICommand ZoekClick
         {
-            get
-            { return new RelayCommand(Zoek); }
+            get { return new RelayCommand(Zoek); }
         }
         private void Zoek()
         {
@@ -235,7 +358,7 @@ namespace Project.ViewModel
         }
         private void AddContact()
         {
-            Contactperson.AddContact(ContactName, ContactCompany, ContactJobRole, ContactCity, ContactEmail, ContactPhone, ContactCellPhone);
+            Contactperson.AddContact(FormContact.Name, FormContact.Company, FormContact.JobRole, FormContact.City, FormContact.Email, FormContact.Phone, FormContact.CellPhone);
             CloseClickAll();
             ContactList = Contactperson.GetContactPersons();
         }
@@ -245,7 +368,7 @@ namespace Project.ViewModel
         }
         private void EditContact()
         {
-            Contactperson.EditContact(ContactName, ContactCompany, ContactJobRole, ContactCity, ContactEmail, ContactPhone, ContactCellPhone,SelectedContact.ID);
+            Contactperson.EditContact(FormContact.Name, FormContact.Company, FormContact.JobRole, FormContact.City, FormContact.Email, FormContact.Phone, FormContact.CellPhone, SelectedContact.ID);
             CloseClickAll();
             ContactList = Contactperson.GetContactPersons();
         }
@@ -255,7 +378,7 @@ namespace Project.ViewModel
         }
         private void ContactSearch()
         {
-            ContactList=Contactperson.ZoekContact(ContactName, ContactCompany, ContactJobRole);
+            ContactList = Contactperson.ZoekContact(FormContact.Name, FormContact.Company, FormContact.JobRole);
             CloseClickAll();
         }
         

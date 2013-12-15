@@ -1,321 +1,324 @@
-﻿<Application x:Class="Project.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="View/MainWindow.xaml">
-    <Application.Resources>
-
-        <!--Brushes-->
-        <LinearGradientBrush x:Key="headerGrad" StartPoint="0.5,0" EndPoint="0.5,1">
-            <GradientStop Color="#FF0192e3" Offset="0.0" x:Name="GradientStop1"/>
-            <GradientStop Color="#FF2ce6f5" Offset="1.0" x:Name="GradientStop2"/>
-        </LinearGradientBrush>
-        <!--Images-->
-        <ImageBrush x:Key="HeaderImg" ImageSource="pack://application:,,,/Resources/header.png"  AlignmentX="Left" Stretch="None"></ImageBrush>
-        <ImageBrush x:Key="AddImg" ImageSource="Resources/Add.png" AlignmentX="Left" Stretch="None"></ImageBrush>
-        <Style x:Key="Window" TargetType="{x:Type Window}">
-            <Setter Property="Background" Value="#FFFFFFFF"/>
-            <Setter Property="Height" Value="900"/>
-            <Setter Property="Width" Value="1600"/>
-        </Style>
-        <Style x:Key="Logo" TargetType="{x:Type TextBlock}">
-            <Setter Property="Background" Value="{StaticResource HeaderImg}"/>
-            <Setter Property="Foreground" Value="{StaticResource headerGrad}"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="72"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="50,20,2.5,30"/>
-        </Style>
-        <Style x:Key="ControlsAdd" TargetType="{x:Type Button}">
-            <Setter Property="Foreground" Value="#FF0192e3"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="32"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="30,0,0,0"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFFFF"/>
-            <Setter Property="Margin" Value="0,0,10,0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border  Name="border" 
-                            BorderThickness="0"
-                            BorderBrush="#FFFFFFFF" 
-                            CornerRadius="0">
-                            <TextBlock Background="{StaticResource AddImg}" VerticalAlignment="Center">
-                                <TextBlock  Padding="50,0,0,0" Text="{TemplateBinding Content}" VerticalAlignment="Center"/>
-                            </TextBlock>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
-                                <Setter Property="Foreground" Value="#FF0f1b45"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="Menu" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FF01b4f6"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="36"/>
-            <Setter Property="Width" Value="450"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="2.5,15,2.5,15"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFFFF"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ContentControl">
-                        <Border Name="border" 
-                            BorderThickness="0"
-                            Padding="4,2" 
-                            BorderBrush="#FFFFFFFF" 
-                            CornerRadius="0" 
-                            Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
-                                <Setter Property="Foreground" Value="#FFFFFF00"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="OptionMenuItem" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FFFF9119"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="5,8,0,0"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                            BorderThickness="0"
-                            BorderBrush="#FFFFFFFF" 
-                            CornerRadius="0" 
-                            Background="{TemplateBinding Background}">
-                            <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
-                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ZoekButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FFFF8400"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                            BorderThickness="0"
-                            BorderBrush="#FFFFFFFF" 
-                            CornerRadius="0" 
-                            Background="{TemplateBinding Background}">
-                            <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
-                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="Zoek" TargetType="{x:Type Button}">
-            <Setter Property="Margin" Value="450,8,0,0"/>
-            <Setter Property="Background" Value="#FFFF9119"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                            BorderThickness="0"
-                            BorderBrush="#FFFFFFFF" 
-                            CornerRadius="0" 
-                            Background="{TemplateBinding Background}">
-                            <TextBlock Padding="35,0,35,0" Text="{TemplateBinding Content}" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
-                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="OptionMenu" TargetType="{x:Type WrapPanel}">
-            <Setter Property="Background" Value="#FFFF8400"/>
-            <Setter Property="Margin" Value="0,20,0,0"/>
-            <Setter Property="Height" Value="35"/>
-        </Style>
-        <Style x:Key="ZoekMenu" TargetType="{x:Type WrapPanel}">
-            <Setter Property="Background" Value="#FFFF9119"/>
-            <Setter Property="Width" Value="1500"/>
-            <Setter Property="Height" Value="0"/>
-        </Style>
-        <Style x:Key="InnerWrapGrid" TargetType="{x:Type Grid}">
-            <Setter Property="Margin" Value="50,20,50,20"/>
-            <Setter Property="Width" Value="800"/>
-        </Style>
-        <Style x:Key="AddMenu" TargetType="{x:Type WrapPanel}">
-            <Setter Property="Background" Value="#FFFF9119"/>
-            <Setter Property="Height" Value="0"/>
-        </Style>
-        <Style x:Key="ZoekLabels" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-        <Style x:Key="TextZoek" TargetType="{x:Type TextBox}">
-            <Setter Property="Margin" Value="0,5,0,5"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-        <Style x:Key="CboZoek" TargetType="{x:Type ComboBox}">
-            <Setter Property="Margin" Value="0,5,0,5"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>     
-        <Style x:Key="SubTitle" TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Margin" Value="0,0,0,20"/>
-        </Style>
-        <Style x:Key="Settings" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FF95ceee"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="26"/>
-            <Setter Property="Width" Value="300"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Margin" Value="40,10,40,70"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFFFF"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Background" Value="#FF01b4f6"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="GridViewHeader" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Background" Value="#FF95ceee"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="0,5,0,0"/>
-            <Setter Property="Width" Value="200"/>
-        </Style>
-        <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
-            <Setter Property="Background" Value="#FF95ceee"/>
-            <Setter Property="Height" Value="500"/>
-        </Style>
-        <Style x:Key="GridViewHeaderId" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Background" Value="#FF95ceee"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="0,5,0,0"/>
-            <Setter Property="Width" Value="20"/>
-        </Style>
-        <Style x:Key="Dropdowns" TargetType="{x:Type ComboBox}">
-            <Setter Property="Background" Value="#FF95ceee"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="20,5,20,5"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFFFF"/>
-        </Style>
-        <Style TargetType="{x:Type ComboBoxItem}">
-            <Setter Property="Background" Value="#FF95ceee"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="20,5,20,5"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="#FFFFFFFF"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-        <Style x:Key="TicketingSubTitles" TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontSize" Value="40"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="50,0,0,0"/>
-        </Style>
-        <Style x:Key="TicketingAantal" TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#FF000000"/>
-            <Setter Property="FontSize" Value="40"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="0,0,0,0"/>
-        </Style>
-        <Style x:Key="TicketType" TargetType="{x:Type ComboBox}">
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="Background" Value="#FFFF9119"/>
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="50,0,0,0"/>
-        </Style>
-        <Style x:Key="OptionMenuTicketType" TargetType="{x:Type WrapPanel}">
-            <Setter Property="Background" Value="#FFFF8400"/>
-            <Setter Property="Margin" Value="0,20,0,0"/>
-            <Setter Property="Height" Value="50"/>
-        </Style>
-        <Style x:Key="AddTicket" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#FFFF9119"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Name="border" 
-                            BorderThickness="0"
-                            BorderBrush="#FFFFFFFF" 
-                            CornerRadius="0" 
-                            Background="{TemplateBinding Background}">
-                            <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
-                                <Setter TargetName="border" Property="BorderThickness" Value="1"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="GridViewHeaderTickets" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Background" Value="#FF95ceee"/>
-            <Setter Property="Foreground" Value="#FFFFFFFF"/>
-            <Setter Property="FontFamily" Value="Ubuntu"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Padding" Value="0,5,0,0"/>
-            <Setter Property="Width" Value="370"/>
-        </Style>
-    </Application.Resources>
-
+﻿<Application x:Class="Project.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="View/MainWindow.xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006">
+  <Application.Resources>
+    <!--Brushes-->
+    <LinearGradientBrush x:Key="headerGrad" StartPoint="0.5,0" EndPoint="0.5,1">
+      <GradientStop Color="#FF0192e3" Offset="0.0" x:Name="GradientStop1" />
+      <GradientStop Color="#FF2ce6f5" Offset="1.0" x:Name="GradientStop2" />
+    </LinearGradientBrush>
+    <!--Images-->
+    <ImageBrush x:Key="HeaderImg" ImageSource="pack://application:,,,/Resources/header.png" AlignmentX="Left" Stretch="None">
+    </ImageBrush>
+    <ImageBrush x:Key="AddImg" ImageSource="Resources/Add.png" AlignmentX="Left" Stretch="None">
+    </ImageBrush>
+    <Style x:Key="Window" TargetType="{x:Type Window}">
+      <Setter Property="Background" Value="#FFFFFFFF" />
+      <Setter Property="Height" Value="900" />
+      <Setter Property="Width" Value="1600" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="WindowStyle" Value="None" />
+    </Style>
+    <Style x:Key="Logo" TargetType="{x:Type TextBlock}">
+      <Setter Property="Background" Value="{StaticResource HeaderImg}" />
+      <Setter Property="Foreground" Value="{StaticResource headerGrad}" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="72" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Padding" Value="50,20,2.5,30" />
+    </Style>
+    <Style x:Key="ControlsAdd" TargetType="{x:Type Button}">
+      <Setter Property="Foreground" Value="#FF0192e3" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="32" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Padding" Value="30,0,0,0" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+      <Setter Property="Margin" Value="0,0,10,0" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Name="border" BorderThickness="0" BorderBrush="#FFFFFFFF" CornerRadius="0">
+              <TextBlock Background="{StaticResource AddImg}" VerticalAlignment="Center">
+                <TextBlock Padding="50,0,0,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" />
+              </TextBlock>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                <Setter Property="Foreground" Value="#FF0f1b45" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="Menu" TargetType="{x:Type Button}">
+      <Setter Property="Background" Value="#FF01b4f6" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="36" />
+      <Setter Property="Width" Value="450" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Margin" Value="2.5,15,2.5,15" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ContentControl">
+            <Border Name="border" BorderThickness="0" Padding="4,2" BorderBrush="#FFFFFFFF" CornerRadius="0" Background="{TemplateBinding Background}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                <Setter Property="Foreground" Value="#FFFFFF00" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="OptionMenuItem" TargetType="{x:Type Button}">
+      <Setter Property="Background" Value="#FFFF9119" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Margin" Value="5,8,0,0" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Name="border" BorderThickness="0" BorderBrush="#FFFFFFFF" CornerRadius="0" Background="{TemplateBinding Background}">
+              <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="OptionType" TargetType="{x:Type Button}">
+      <Setter Property="Background" Value="#FFFF8400" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Width" Value="150" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Name="border" BorderThickness="0" BorderBrush="#FFFFFFFF" CornerRadius="0" Background="{TemplateBinding Background}">
+              <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="ZoekButton" TargetType="{x:Type Button}">
+      <Setter Property="Background" Value="#FFFF8400" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Name="border" BorderThickness="0" BorderBrush="#FFFFFFFF" CornerRadius="0" Background="{TemplateBinding Background}">
+              <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="Zoek" TargetType="{x:Type Button}">
+      <Setter Property="Margin" Value="100,8,0,0" />
+      <Setter Property="Background" Value="#FFFF9119" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Name="border" BorderThickness="0" BorderBrush="#FFFFFFFF" CornerRadius="0" Background="{TemplateBinding Background}">
+              <TextBlock Padding="35,0,35,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="OptionMenu" TargetType="{x:Type WrapPanel}">
+      <Setter Property="Background" Value="#FFFF8400" />
+      <Setter Property="Margin" Value="0,20,0,0" />
+      <Setter Property="Height" Value="35" />
+    </Style>
+    <Style x:Key="ZoekMenu" TargetType="{x:Type WrapPanel}">
+      <Setter Property="Background" Value="#FFFF9119" />
+      <Setter Property="Width" Value="1500" />
+      <Setter Property="Height" Value="0" />
+    </Style>
+    <Style x:Key="InnerWrapGrid" TargetType="{x:Type Grid}">
+      <Setter Property="Margin" Value="50,20,50,20" />
+      <Setter Property="Width" Value="800" />
+    </Style>
+    <Style x:Key="AddMenu" TargetType="{x:Type WrapPanel}">
+      <Setter Property="Background" Value="#FFFF9119" />
+      <Setter Property="Height" Value="0" />
+    </Style>
+    <Style x:Key="ZoekLabels" TargetType="{x:Type TextBlock}">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style x:Key="TextZoek" TargetType="{x:Type TextBox}">
+      <Setter Property="Margin" Value="0,5,0,5" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="CboZoek" TargetType="{x:Type ComboBox}">
+      <Setter Property="Margin" Value="0,5,0,5" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="SubTitle" TargetType="{x:Type TextBlock}">
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontSize" Value="20" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Margin" Value="0,0,0,20" />
+    </Style>
+    <Style x:Key="Settings" TargetType="{x:Type Button}">
+      <Setter Property="Background" Value="#FF95ceee" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="26" />
+      <Setter Property="Width" Value="300" />
+      <Setter Property="Height" Value="40" />
+      <Setter Property="Margin" Value="40,10,40,70" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="true">
+          <Setter Property="Background" Value="#FF01b4f6" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style x:Key="GridViewHeader" TargetType="{x:Type GridViewColumnHeader}">
+      <Setter Property="Background" Value="#FF95ceee" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Padding" Value="0,5,0,0" />
+      <Setter Property="Width" Value="200" />
+    </Style>
+    <Style x:Key="AddTypeGrid" TargetType="{x:Type Grid}">
+      <Setter Property="Width" Value="400" />
+      <Setter Property="Height" Value="150" />
+    </Style>
+    <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
+      <Setter Property="Background" Value="#FF95ceee" />
+      <Setter Property="Height" Value="500" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+    <Style x:Key="GridViewHeaderId" TargetType="{x:Type GridViewColumnHeader}">
+      <Setter Property="Background" Value="#FF95ceee" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Padding" Value="0,5,0,0" />
+      <Setter Property="Width" Value="20" />
+    </Style>
+    <Style x:Key="Dropdowns" TargetType="{x:Type ComboBox}">
+      <Setter Property="Background" Value="#FF95ceee" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Margin" Value="20,5,20,5" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+    </Style>
+    <Style TargetType="{x:Type ComboBoxItem}">
+      <Setter Property="Background" Value="#FF95ceee" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Margin" Value="20,5,20,5" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BorderBrush" Value="#FFFFFFFF" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="TicketingSubTitles" TargetType="{x:Type TextBlock}">
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontSize" Value="40" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Padding" Value="50,0,0,0" />
+    </Style>
+    <Style x:Key="TicketingAantal" TargetType="{x:Type TextBlock}">
+      <Setter Property="Foreground" Value="#FF000000" />
+      <Setter Property="FontSize" Value="40" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Padding" Value="0,0,0,0" />
+    </Style>
+    <Style x:Key="TicketType" TargetType="{x:Type ComboBox}">
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="Background" Value="#FFFF9119" />
+      <Setter Property="FontSize" Value="30" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Padding" Value="50,0,0,0" />
+    </Style>
+    <Style x:Key="OptionMenuTicketType" TargetType="{x:Type WrapPanel}">
+      <Setter Property="Background" Value="#FFFF8400" />
+      <Setter Property="Margin" Value="0,20,0,0" />
+      <Setter Property="Height" Value="50" />
+    </Style>
+    <Style x:Key="AddTicket" TargetType="{x:Type Button}">
+      <Setter Property="Background" Value="#FFFF9119" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border Name="border" BorderThickness="0" BorderBrush="#FFFFFFFF" CornerRadius="0" Background="{TemplateBinding Background}">
+              <TextBlock Padding="15,0,15,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
+                <Setter TargetName="border" Property="BorderThickness" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="GridViewHeaderTickets" TargetType="{x:Type GridViewColumnHeader}">
+      <Setter Property="Background" Value="#FF95ceee" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="FontFamily" Value="Ubuntu" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="Padding" Value="0,5,0,0" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+    <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:Project.ViewModel" />
+  </Application.Resources>
 </Application>
