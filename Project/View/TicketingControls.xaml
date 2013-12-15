@@ -24,8 +24,10 @@
             </Grid>
         </WrapPanel>
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource OptionMenu}">
-            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Toevoegen" Name="BtnReserveringToevoegen" Click="BtnReserveringToevoegen_Click"/>
-            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Wijzigen" Name="BtnReserveringWijzigen" Click="BtnReserveringWijzigen_Click" />
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Verwijderen" Name="btnReseveringVerwijderen" Command="{Binding DeleteReserveringClick}"/>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Toevoegen" Name="BtnReserveringToevoegen" Command="{Binding AddReserveringClick}"/>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Wijzigen" Name="BtnReserveringWijzigen" Command="{Binding EditReserveringClick}" />
+            <Button Content="Close" Style="{StaticResource OptionMenuItem}" Visibility="{Binding CloseVis}" Name="btnClose" Command="{Binding CloseClick}"/>
             <Button Style="{StaticResource Zoek}" Name="BtnZoek" Click="BtnZoek_Click" >Zoeken</Button>
         </WrapPanel>
         <WrapPanel Style="{StaticResource ZoekMenu}"  Name="ZoekMenuWrap">
@@ -86,7 +88,7 @@
                 <Button Content="Opslaan" Grid.Column="2" Grid.Row="7" Style="{StaticResource ZoekButton}" Command="{Binding ContactEditCommand}" Visibility="Hidden"/>
             </Grid>
         </WrapPanel>
-        <ListView x:Name="lstContact" ItemsSource="{Binding TicketList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"  Background="#FF95ceee" BorderThickness="0" Style="{StaticResource ListViewStyle}">
+        <ListView x:Name="lstContact" ItemsSource="{Binding TicketList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" SelectedItem="{Binding SelectedTicket}" BorderThickness="0" Style="{StaticResource ListViewStyle}">
             <ListView.View>
                 <GridView >
                     <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderId}" Header="ID" DisplayMemberBinding="{Binding ID}" />

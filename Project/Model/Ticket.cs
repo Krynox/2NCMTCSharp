@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    class Ticket
+    public class Ticket
     {
         public string ID { get; set; }
         public string TicketHolder { get; set; }
@@ -44,6 +44,10 @@ namespace Project
                 OrderDate=Convert.ToDateTime(record["OrderDate"]),
 
             };
+        }
+        public static void DeleteTicket(Ticket SelectedTicket)
+        {
+            Database.ModifyData("DELETE FROM tbl_ticket WHERE ID=@id", Database.AddParameter("@id", SelectedTicket.ID));
         }
     }
 }

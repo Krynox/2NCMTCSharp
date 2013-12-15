@@ -127,6 +127,13 @@ namespace Project.ViewModel
             get { return _addType; }
             set { _addType = value; OnPropertyChanged("AddType"); }
         }
+        private int _listIndex;
+
+        public int ListIndex
+        {
+            get { return _listIndex; }
+            set { _listIndex = value; OnPropertyChanged("ListIndex"); }
+        }
         
         private string _addControls;
 
@@ -167,13 +174,8 @@ namespace Project.ViewModel
             MenuZoekHeight = 0;
             FunctieMenuHeight = 0;
             CloseVis = "Hidden";
-            FormContact.Name = "";
-            FormContact.Company = "";
-            FormContact.City = "";
-            FormContact.Email = "";
-            FormContact.JobRole = null;
-            FormContact.Phone = "";
-            FormContact.CellPhone = "";
+            FormContact = new Contactperson();
+            ListIndex = 0;
         }
         public ICommand FunctieClick
         {
@@ -306,19 +308,22 @@ namespace Project.ViewModel
         {
             if (SelectedContact != null)
             {
-                //CloseClickAll();
+                CloseClickAll();
                 MenuHeightAdd = 400;
                 AddControls = "Hidden";
                 EditControls = "Visible";
                 CloseVis = "Visible";
                 AddType = "Hidden";
-                FormContact.Name = SelectedContact.Name.Trim();
-                FormContact.Company = SelectedContact.Company.Trim();
-                FormContact.City = SelectedContact.City.Trim();
-                FormContact.Email = SelectedContact.Email.Trim();
-                FormContact.JobRole = SelectedContact.JobRole;
-                FormContact.Phone = SelectedContact.Phone.Trim();
-                FormContact.CellPhone = SelectedContact.CellPhone.Trim();
+                FormContact = SelectedContact;
+                int aantal = 0;
+                foreach (ContactpersonType c in TypeList)
+                {
+                    if (c.ID == SelectedContact.JobRole.ID)
+                    {
+                        ListIndex = aantal;
+                    }
+                    aantal++;
+                }
             }
         }
         public ICommand ZoekClick
