@@ -20,6 +20,11 @@ namespace Project.ViewModel
         {
             TicketTypeList = TicketType.GetTicketTypes();
             TicketList = Ticket.GetTickets();
+            
+            TicketTypeIndex = 0;
+
+            ZoekHeight = 0;
+            CloseVis = "Hidden";
         }
         #region Lists
         private ObservableCollection<Ticket> _ticketList;
@@ -39,6 +44,22 @@ namespace Project.ViewModel
         }
         #endregion
         #region Selected
+        private int _zoekHeight;
+
+        public int ZoekHeight
+        {
+            get { return _zoekHeight; }
+            set { _zoekHeight = value; OnPropertyChanged("ZoekHeight"); }
+        }
+        
+        private int _ticketTypeIndex;
+
+        public int TicketTypeIndex
+        {
+            get { return _ticketTypeIndex; }
+            set { _ticketTypeIndex = value; OnPropertyChanged("TicketTypeIndex"); }
+        }
+        
         private Ticket _selctedTicket;
 
         public Ticket SelectedTicket
@@ -62,10 +83,34 @@ namespace Project.ViewModel
             get { return _formTicket; }
             set { _formTicket = value; OnPropertyChanged("FormTicket"); }
         }
+
+        private string _closeVis;
+
+        public string CloseVis
+        {
+            get { return _closeVis; }
+            set { _closeVis = value; OnPropertyChanged("CloseVis"); }
+        }
         
         private void CloseClickAll()
-        { 
-            
+        {
+            ZoekHeight = 0;
+            CloseVis = "Hidden";
+        }
+        public ICommand CloseClick
+        {
+            get { return new RelayCommand(CloseClickAll); }
+        }
+        public ICommand ZoekReserveringClick
+        {
+            get { return new RelayCommand(ZoekReserveringOpen); }
+        }
+
+        private void ZoekReserveringOpen()
+        {
+            CloseClickAll();
+            ZoekHeight = 250;
+            CloseVis = "Visible";
         }
         #endregion
         public ICommand DeleteReserveringClick

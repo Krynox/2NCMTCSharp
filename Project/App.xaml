@@ -5,11 +5,6 @@
       <GradientStop Color="#FF0192e3" Offset="0.0" x:Name="GradientStop1" />
       <GradientStop Color="#FF2ce6f5" Offset="1.0" x:Name="GradientStop2" />
     </LinearGradientBrush>
-    <!--Images-->
-    <ImageBrush x:Key="HeaderImg" ImageSource="pack://application:,,,/Resources/header.png" AlignmentX="Left" Stretch="None">
-    </ImageBrush>
-    <ImageBrush x:Key="AddImg" ImageSource="Resources/Add.png" AlignmentX="Left" Stretch="None">
-    </ImageBrush>
     <Style x:Key="Window" TargetType="{x:Type Window}">
       <Setter Property="Background" Value="#FFFFFFFF" />
       <Setter Property="Height" Value="900" />
@@ -18,8 +13,7 @@
       <Setter Property="WindowStyle" Value="None" />
     </Style>
     <Style x:Key="Logo" TargetType="{x:Type TextBlock}">
-      <Setter Property="Background" Value="{StaticResource HeaderImg}" />
-      <Setter Property="Foreground" Value="{StaticResource headerGrad}" />
+      <Setter Property="Foreground" Value="#FFFF9119" />
       <Setter Property="FontFamily" Value="Ubuntu" />
       <Setter Property="FontSize" Value="72" />
       <Setter Property="FontWeight" Value="Bold" />
@@ -38,7 +32,7 @@
         <Setter.Value>
           <ControlTemplate TargetType="Button">
             <Border Name="border" BorderThickness="0" BorderBrush="#FFFFFFFF" CornerRadius="0">
-              <TextBlock Background="{StaticResource AddImg}" VerticalAlignment="Center">
+              <TextBlock VerticalAlignment="Center">
                 <TextBlock Padding="50,0,0,0" Text="{TemplateBinding Content}" VerticalAlignment="Center" />
               </TextBlock>
             </Border>
@@ -57,9 +51,9 @@
       <Setter Property="Foreground" Value="#FFFFFFFF" />
       <Setter Property="FontFamily" Value="Ubuntu" />
       <Setter Property="FontSize" Value="36" />
-      <Setter Property="Width" Value="450" />
       <Setter Property="FontWeight" Value="Bold" />
       <Setter Property="Margin" Value="2.5,15,2.5,15" />
+      <Setter Property="Width" Value="300"/>
       <Setter Property="BorderThickness" Value="0" />
       <Setter Property="BorderBrush" Value="#FFFFFFFF" />
       <Setter Property="Template">
@@ -232,9 +226,9 @@
     </Style>
     <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
       <Setter Property="Background" Value="#FF95ceee" />
-      <Setter Property="Height" Value="500" />
       <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-    </Style>
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
     <Style x:Key="GridViewHeaderId" TargetType="{x:Type GridViewColumnHeader}">
       <Setter Property="Background" Value="#FF95ceee" />
       <Setter Property="Foreground" Value="#FFFFFFFF" />
