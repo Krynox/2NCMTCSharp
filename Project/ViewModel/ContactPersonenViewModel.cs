@@ -20,6 +20,7 @@ namespace Project.ViewModel
         }
         public ContactPersonenViewModel()
         {
+            _formContact = new Contactperson();
             ContactList = Contactperson.GetContactPersons();
             TypeList = ContactpersonType.GetTypes();
             AddControls = "Visible";
@@ -50,7 +51,7 @@ namespace Project.ViewModel
         public Contactperson SelectedContact
         {
             get { return _selectedContact; }
-            set { _selectedContact = value; }
+            set { _selectedContact = value; OnPropertyChanged("SelectedContact"); }
         }
         private ContactpersonType _selectedType;
 
@@ -62,6 +63,14 @@ namespace Project.ViewModel
         #endregion
 
         #region FormWaarden
+        private Contactperson _formContact;
+
+        public Contactperson FormContact
+        {
+            get { return _formContact; }
+            set { _formContact = value;  OnPropertyChanged("FormContact");}
+        }
+        
         private string _functieTypeAddText;
 
         public string FunctieTypeAddText
@@ -76,56 +85,6 @@ namespace Project.ViewModel
         {
             get { return _contactTypeAdd; }
             set { _contactTypeAdd = value; OnPropertyChanged("ContactTypeAdd"); }
-        }
-        
-        private string _contactName;
-
-        public string ContactName
-        {
-            get { return _contactName; }
-            set { _contactName = value; OnPropertyChanged("ContactName"); }
-        }
-        private string _contactCompany;
-
-        public string ContactCompany
-        {
-            get { return _contactCompany; }
-            set { _contactCompany = value; OnPropertyChanged("ContactCompany"); }
-        }
-        private string _contactCity;
-
-        public string ContactCity
-        {
-            get { return _contactCity; }
-            set { _contactCity = value; OnPropertyChanged("ContactCity"); }
-        }
-        private string _contactEmail;
-
-        public string ContactEmail
-        {
-            get { return _contactEmail; }
-            set { _contactEmail = value; OnPropertyChanged("ContactEmail"); }
-        }
-        private string _contactPhone;
-
-        public string ContactPhone
-        {
-            get { return _contactPhone; }
-            set { _contactPhone = value; OnPropertyChanged("ContactPhone"); }
-        }
-        private string _contactCellPhone;
-
-        public string ContactCellPhone
-        {
-            get { return _contactCellPhone; }
-            set { _contactCellPhone = value; OnPropertyChanged("ContactCellPhone"); }
-        }
-        private ContactpersonType _contactJobRole;
-
-        public ContactpersonType ContactJobRole
-        {
-            get { return _contactJobRole; }
-            set { _contactJobRole = value; OnPropertyChanged("ContactJobRole");}
         }
         #endregion
 
@@ -168,6 +127,13 @@ namespace Project.ViewModel
             get { return _addType; }
             set { _addType = value; OnPropertyChanged("AddType"); }
         }
+        private int _listIndex;
+
+        public int ListIndex
+        {
+            get { return _listIndex; }
+            set { _listIndex = value; OnPropertyChanged("ListIndex"); }
+        }
         
         private string _addControls;
 
@@ -208,13 +174,8 @@ namespace Project.ViewModel
             MenuZoekHeight = 0;
             FunctieMenuHeight = 0;
             CloseVis = "Hidden";
-            ContactName = "";
-            ContactCompany = "";
-            ContactCity = "";
-            ContactEmail = "";
-            ContactJobRole = null;
-            ContactPhone = "";
-            ContactCellPhone = "";
+            FormContact = new Contactperson();
+            ListIndex = 0;
         }
         public ICommand FunctieClick
         {
@@ -341,8 +302,7 @@ namespace Project.ViewModel
         }
         public ICommand EditMenuClick
         {
-            get
-            { return new RelayCommand(EditMenu); }
+            get { return new RelayCommand(EditMenu); }
         }
         private void EditMenu()
         {
@@ -354,19 +314,21 @@ namespace Project.ViewModel
                 EditControls = "Visible";
                 CloseVis = "Visible";
                 AddType = "Hidden";
-                ContactName = SelectedContact.Name.Trim();
-                ContactCompany = SelectedContact.Company.Trim();
-                ContactCity = SelectedContact.City.Trim();
-                ContactEmail = SelectedContact.Email.Trim();
-                ContactJobRole = SelectedContact.JobRole;
-                ContactPhone = SelectedContact.Phone.Trim();
-                ContactCellPhone = SelectedContact.CellPhone.Trim();
+                FormContact = SelectedContact;
+                int aantal = 0;
+                foreach (ContactpersonType c in TypeList)
+                {
+                    if (c.ID == SelectedContact.JobRole.ID)
+                    {
+                        ListIndex = aantal;
+                    }
+                    aantal++;
+                }
             }
         }
         public ICommand ZoekClick
         {
-            get
-            { return new RelayCommand(Zoek); }
+            get { return new RelayCommand(Zoek); }
         }
         private void Zoek()
         {
@@ -401,7 +363,7 @@ namespace Project.ViewModel
         }
         private void AddContact()
         {
-            Contactperson.AddContact(ContactName, ContactCompany, ContactJobRole, ContactCity, ContactEmail, ContactPhone, ContactCellPhone);
+            Contactperson.AddContact(FormContact.Name, FormContact.Company, FormContact.JobRole, FormContact.City, FormContact.Email, FormContact.Phone, FormContact.CellPhone);
             CloseClickAll();
             ContactList = Contactperson.GetContactPersons();
         }
@@ -411,7 +373,7 @@ namespace Project.ViewModel
         }
         private void EditContact()
         {
-            Contactperson.EditContact(ContactName, ContactCompany, ContactJobRole, ContactCity, ContactEmail, ContactPhone, ContactCellPhone,SelectedContact.ID);
+            Contactperson.EditContact(FormContact.Name, FormContact.Company, FormContact.JobRole, FormContact.City, FormContact.Email, FormContact.Phone, FormContact.CellPhone, SelectedContact.ID);
             CloseClickAll();
             ContactList = Contactperson.GetContactPersons();
         }
@@ -421,7 +383,7 @@ namespace Project.ViewModel
         }
         private void ContactSearch()
         {
-            ContactList=Contactperson.ZoekContact(ContactName, ContactCompany, ContactJobRole);
+            ContactList = Contactperson.ZoekContact(FormContact.Name, FormContact.Company, FormContact.JobRole);
             CloseClickAll();
         }
         

@@ -7,7 +7,7 @@
              d:DesignHeight="700" d:DesignWidth="1500">
         <StackPanel>
         <WrapPanel Style="{StaticResource OptionMenuTicketType}">
-            <Grid Grid.Column="2" Grid.Row="0" Width="1500">
+            <Grid Grid.Column="2" Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="3*"/>
@@ -19,16 +19,18 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Aantal Tickets Vrij:" Style="{StaticResource TicketingSubTitles}"/>
                 <TextBlock Grid.Column="1" Grid.Row="0" Name="TxbAantalVrij" Text="{Binding SelectedType.AvailableTickets}" Style="{StaticResource TicketingAantal}"/>
-                <ComboBox Grid.Column="2"  ItemsSource="{Binding TicketTypeList}" Text="{Binding TicketTypeList.Name}"  Style="{StaticResource TicketType}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedType}" />
+                <ComboBox Grid.Column="2"  ItemsSource="{Binding TicketTypeList}" Text="{Binding TicketTypeList.Name}"  Style="{StaticResource TicketType}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedType}" SelectedIndex="{Binding TicketTypeIndex}" />
                 <Button Grid.Column="3" Content="Add" Style="{StaticResource AddTicket}"/>
             </Grid>
         </WrapPanel>
         <WrapPanel Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource OptionMenu}">
-            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Toevoegen" Name="BtnReserveringToevoegen" Click="BtnReserveringToevoegen_Click"/>
-            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Wijzigen" Name="BtnReserveringWijzigen" Click="BtnReserveringWijzigen_Click" />
-            <Button Style="{StaticResource Zoek}" Name="BtnZoek" Click="BtnZoek_Click" >Zoeken</Button>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Verwijderen" Name="btnReseveringVerwijderen" Command="{Binding DeleteReserveringClick}"/>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Toevoegen" Name="BtnReserveringToevoegen" Command="{Binding AddReserveringClick}"/>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Wijzigen" Name="BtnReserveringWijzigen" Command="{Binding EditReserveringClick}" />
+            <Button Style="{StaticResource OptionMenuItem}" Name="BtnZoek" Command="{Binding ZoekReserveringClick}">Zoeken</Button>
+            <Button Content="Close" Style="{StaticResource Zoek}" Visibility="{Binding CloseVis}" Name="btnClose" Command="{Binding CloseClick}"/>
         </WrapPanel>
-        <WrapPanel Style="{StaticResource ZoekMenu}"  Name="ZoekMenuWrap">
+        <WrapPanel Style="{StaticResource ZoekMenu}"  Name="ZoekMenuWrap" Height="{Binding ZoekHeight}">
             <Grid Style="{StaticResource InnerWrapGrid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
@@ -86,14 +88,16 @@
                 <Button Content="Opslaan" Grid.Column="2" Grid.Row="7" Style="{StaticResource ZoekButton}" Command="{Binding ContactEditCommand}" Visibility="Hidden"/>
             </Grid>
         </WrapPanel>
-        <ListView x:Name="lstContact" ItemsSource="{Binding ContactList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3"  Background="#FF95ceee" BorderThickness="0" Style="{StaticResource ListViewStyle}">
+        <ListView x:Name="lstContact" ItemsSource="{Binding TicketList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" SelectedItem="{Binding SelectedTicket}" BorderThickness="0" Style="{StaticResource ListViewStyle}">
             <ListView.View>
                 <GridView >
                     <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderId}" Header="ID" DisplayMemberBinding="{Binding ID}" />
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Naam" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Email" DisplayMemberBinding="{Binding Company}" />
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Type" DisplayMemberBinding="{Binding City}"/>
-                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Aantal" DisplayMemberBinding="{Binding Email}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Naam" DisplayMemberBinding="{Binding TicketHolder}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Email" DisplayMemberBinding="{Binding TicketHolderEmail}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Type" DisplayMemberBinding="{Binding TicketType.Name}"/>
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Aantal" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Datum" DisplayMemberBinding="{Binding OrderDate}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderTickets}" Header="Naam reservering" DisplayMemberBinding="{Binding EntryName}" />
                 </GridView>
             </ListView.View>
         </ListView>

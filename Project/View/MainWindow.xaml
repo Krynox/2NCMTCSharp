@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:Project.ViewModel"
         xmlns:v="clr-namespace:Project.View"
-        Title="Electronic-Rampage" Height="900" Width="1600">
+        Title="Electronic-Rampage" Height="900" Width="1600" WindowStyle="ThreeDBorderWindow">
     <Window.DataContext>
         <vm:ApplicationVM/>
     </Window.DataContext>
@@ -17,13 +17,10 @@
         <DataTemplate DataType="{x:Type vm:TicketingViewModel}">
             <v:TicketingControls/>
         </DataTemplate>
-
-
-
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="7*"/>
         </Grid.RowDefinitions>
@@ -31,7 +28,7 @@
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="txbLogo" Grid.Row="0" Grid.ColumnSpan="3"  Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource Logo}">Electronic Rampage</TextBlock>
-        <ItemsControl ItemsSource="{Binding Pages}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" >
+        <ItemsControl ItemsSource="{Binding Pages}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal">
