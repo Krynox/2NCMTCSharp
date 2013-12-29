@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Project.View;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using System.Windows;
+using Microsoft.Win32;
 using System.Windows.Forms;
 
 namespace Project.ViewModel
@@ -23,8 +25,29 @@ namespace Project.ViewModel
             GenreList = Genre.GetGenres();
             ListBands = Band.GetBands();
             AddContVis = "Hidden";
+            GenreContVis = "Hidden";
 
         }
+        private Band _formBand;
+        public Band FormBand
+        {
+            get { return _formBand; }
+            set { _formBand = value; OnPropertyChanged("FormBand"); }
+        }
+        private string _imagePath;
+        public string ImagePath
+        {
+            get { return _imagePath; }
+            set { _imagePath = value; OnPropertyChanged("ImagePath"); }
+        }
+        private string _zoekBands;
+
+        public string ZoekBands
+        {
+            get { return _zoekBands; }
+            set { _zoekBands = value; OnPropertyChanged("ZoekBands"); ZoekBandsOp(); }
+        }
+
         #region Lists
         private ObservableCollection<Band> _listBands;
 
@@ -69,6 +92,30 @@ namespace Project.ViewModel
         
         #endregion
         #region Controls
+        private string _editGenreVis;
+
+        public string EditGenreVis
+        {
+            get { return _editGenreVis; }
+            set { _editGenreVis = value; OnPropertyChanged("EditGenreVis"); }
+        }
+        private string _addGenreVis;
+
+        public string AddGenreVis
+        {
+            get { return _addGenreVis; }
+            set { _addGenreVis = value; OnPropertyChanged("AddGenreVis"); }
+        }
+        
+        
+        private string _genreContVis;
+
+        public string GenreContVis
+        {
+            get { return _genreContVis; }
+            set { _genreContVis = value; OnPropertyChanged("GenreContVis"); }
+        }
+        
         private string _bandContVis;
 
         public string BandContVis
@@ -117,6 +164,7 @@ namespace Project.ViewModel
 
         private void ToevoegContShow()
         {
+            FormBand = new Band();
             AddContVis = "Visible";
             ToevoegShow = "Visible";
             EditShow = "Hidden";
@@ -125,18 +173,6 @@ namespace Project.ViewModel
         
         #endregion
         #region AddForm
-        private Band _formBand;
-        public Band FormBand
-        {
-            get { return _formBand; }
-            set { _formBand = value; OnPropertyChanged("FormBand"); }
-        }
-        private string _imagePath;
-        public string ImagePath
-        {
-            get { return _imagePath; }
-            set { _imagePath = value; OnPropertyChanged("ImagePath"); }
-        }
         public ICommand ZoekReserveringClick
         {
             get { return new RelayCommand(SaveBand); }
@@ -156,6 +192,99 @@ namespace Project.ViewModel
         public ICommand OpslaanBand
         {
             get { return new RelayCommand(SaveBand); }
+        }
+        public ICommand VerwijderbandClick
+        {
+            get { return new RelayCommand(Verwijderband); }
+        }
+        public ICommand OpenWijzigClick
+        {
+            get { return new RelayCommand(OpenWijzig); }
+        }
+        public ICommand WijzigBand
+        {
+            get { return new RelayCommand(EditBand); }
+        }
+        public ICommand OpenGenres
+        {
+            get { return new RelayCommand(OpenGernesClick); }
+        }
+        public ICommand CloseGenre
+        {
+            get { return new RelayCommand(CloseGernesClick); }
+        }
+        public ICommand VerwijderGenre
+        {
+            get { return new RelayCommand(VerwijderGenreClick); }
+        }
+        public ICommand OpenWijzigGenre
+        {
+            get { return new RelayCommand(OpenWijzigGenreClick); }
+        }
+
+        private void OpenWijzigGenreClick()
+        {
+            EditGenreVis = "Visible";
+            AddGenreVis = "Hidden";
+        }
+
+
+        private void VerwijderGenreClick()
+        {
+            if (SelectedGenre != null)
+            {
+ 
+            }
+        }
+
+        private void CloseGernesClick()
+        {
+            AddContVis = "Hidden";
+            BandContVis = "Visible";
+            GenreContVis = "Hidden";
+        }
+        private void OpenGernesClick()
+        {
+            AddContVis = "Hidden";
+            BandContVis = "Hidden";
+            GenreContVis = "Visible";
+            EditGenreVis = "Hidden";
+            AddGenreVis = "Hidden";
+        }
+
+        private void EditBand()
+        {
+            Band.EditBand(SelectedBand,ImagePath);
+        }
+
+        private void OpenWijzig()
+        {
+            if (SelectedBand != null)
+            {
+                AddContVis = "Visible";
+                BandContVis = "Hidden";
+                EditShow = "Visible";
+                ToevoegShow = "Hidden";
+                FormBand = SelectedBand;
+            }
+        }
+
+
+        private void Verwijderband()
+        {
+            if (SelectedBand != null)
+            {
+                MessageBoxResult result = System.Windows.MessageBox.Show("Wil je " + SelectedBand.Name.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    string message = Band.DeleteBand(SelectedBand);
+                    if (message != null)
+                    {
+                        System.Windows.MessageBox.Show(message);
+                    }
+                    ListBands = Band.GetBands();
+                }
+            }
         }
         private void AddGenre()
         {
@@ -178,7 +307,7 @@ namespace Project.ViewModel
         }
         private void BrowseFile()
         {
-            OpenFileDialog ofd = new OpenFileDialog();
+            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
             ofd.Filter="JPEG (.jpg)|*.jpg|PNG (.png)|*.png";
             ofd.Multiselect = false;
             ofd.FileName = String.Empty;
@@ -189,10 +318,16 @@ namespace Project.ViewModel
         }
         private void SaveBand()
         {
-            if (ImagePath != "")
+            if (ImagePath != null)
             {
                 Band.CreateBand(FormBand, ImagePath);
+                AddContVis = "Hidden";
+                BandContVis = "Visible";
             }
+        }
+        private void ZoekBandsOp()
+        {
+            ListBands = Band.GetBandsSearch(ZoekBands);
         }
         #endregion
 

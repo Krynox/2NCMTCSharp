@@ -17,6 +17,7 @@ namespace Project
         public string Name { get; set; }
         public double Price { get; set; }
         public int AvailableTickets { get; set; }
+        public string UsedTickets { get; set; }
 
         public static ObservableCollection<TicketType> GetTicketTypes()
         {
@@ -29,16 +30,69 @@ namespace Project
             return type;
 
         }
-
         private static TicketType Create(IDataRecord record)
         {
             return new TicketType()
             {
                 ID = record["ID"].ToString(),
-                Name = record["TicketName"].ToString(),
-                Price = Convert.ToDouble(record["Price"].ToString()),
-                AvailableTickets = Convert.ToInt32(record["Available"].ToString()),
+                Name = record["TicketName"].ToString().Trim(),
+                Price = Convert.ToDouble(record["Price"].ToString().Trim()),
+                AvailableTickets = Convert.ToInt32(record["Available"].ToString().Trim()),
+                UsedTickets=(Convert.ToInt32(record["Available"].ToString())-Convert.ToInt32(GetUsedTickets(record["ID"].ToString()))).ToString()+" / "+ record["Available"].ToString()
             };
+        }
+
+        public static string GetUsedTickets(string p)
+        {
+            string used = "";
+            DbDataReader reader = Database.GetData("SELECT count(*) as aantal FROM tbl_ticket WHERE TicketType=@id",
+                Database.AddParameter("@id",Convert.ToInt32(p))
+                );
+            foreach (IDataRecord db in reader)
+            {
+                used = db["aantal"].ToString();
+            }
+            return used;
+        }
+
+        internal static string DeleteFunctie(TicketType SelectedType)
+        {
+            DbDataReader reader = Database.GetData("SELECT * FROM tbl_ticket,tbl_ticketType WHERE tbl_ticketType.ID=tbl_ticket.TicketType AND tbl_ticketType.TicketName=@name", Database.AddParameter("@name", SelectedType.Name));
+            if (reader.HasRows)
+            {
+                return "Gelieve eerste alle reserveringen met dit tickettype te verwijderen";
+            }
+            else
+            {
+                Database.ModifyData("DELETE FROM tbl_ticketType WHERE ID=@id", Database.AddParameter("@id", Convert.ToInt32(SelectedType.ID)));
+            }
+            return null;
+        }
+
+        public static string EditType(TicketType FormTicketType)
+        {
+            if (Convert.ToInt32(GetUsedTickets(FormTicketType.ID.ToString())) <= FormTicketType.AvailableTickets)
+            {
+                Database.ModifyData("UPDATE tbl_ticketType SET TicketName=@name,Price=@price,Available=@avail WHERE ID=@id",
+                        Database.AddParameter("@name",FormTicketType.Name),
+                        Database.AddParameter("@price",FormTicketType.Price),
+                        Database.AddParameter("@avail",FormTicketType.AvailableTickets),
+                        Database.AddParameter("@id",FormTicketType.ID)
+                    );
+            }
+            else
+            {
+                return "Er zijn niet genoeg tickets vrij";
+            }
+            return null;
+        }
+        public static void AddType(TicketType FormTicketType)
+        {
+            Database.ModifyData("INSERT INTO tbl_ticketType (TicketName,Price,Available) VALUES(@name,@price,@avail)",
+                Database.AddParameter("@name", FormTicketType.Name),
+                Database.AddParameter("@price", FormTicketType.Price),
+                Database.AddParameter("@avail", FormTicketType.AvailableTickets)
+                );
         }
     }
     

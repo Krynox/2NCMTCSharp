@@ -25,10 +25,11 @@
             <ComboBox Grid.Column="0" Grid.Row="0" Style="{StaticResource Dropdowns}"></ComboBox>
         </Grid>
         <StackPanel Grid.Column="1" Orientation="Horizontal">
-            <Button Style="{StaticResource OptionMenuItem}" Margin="10,20,10,20">Band Verwijderen</Button>
-            <Button Style="{StaticResource OptionMenuItem}" x:Name="txbToevoegenBand" Margin="10,20,10,20" Command="{Binding ToevoegContClick}">Band Toevoegen</Button>
-            <Button Style="{StaticResource OptionMenuItem}" Margin="10,20,10,20">Band Wijzigen</Button>
-            <TextBox Text="Zoek" Width="160" Margin="20"/>
+            <Button Style="{StaticResource OptionMenuItem}" Margin="5,20,5,20" Command="{Binding VerwijderbandClick}">Band Verwijderen</Button>
+            <Button Style="{StaticResource OptionMenuItem}" x:Name="txbToevoegenBand" Margin="5,20,5,20" Command="{Binding ToevoegContClick}">Band Toevoegen</Button>
+            <Button Style="{StaticResource OptionMenuItem}" Margin="5,20,5,20" Command="{Binding OpenWijzigClick}">Band Wijzigen</Button>
+            <Button Style="{StaticResource OptionMenuItem}" Margin="5,20,5,20" Command="{Binding OpenGenres}">Genres</Button>
+            <TextBox Width="130" Margin="5,20,5,20" Text="{Binding ZoekBands,UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
@@ -85,6 +86,31 @@
                 <ListBox Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="6" Margin="8,8,8,8" ItemsSource="{Binding FormBand.Genres}" DisplayMemberPath="GenreName" SelectedItem="{Binding AddedSlectedGenre}"></ListBox>
                 <Button Grid.Column="4" Grid.Row="6" Height="25" Margin="8,0,8,0" Command="{Binding GenreRemoveClick}">Genre Verwijderen</Button>
             </Grid>
+            <Grid Grid.Column="0" Grid.Row="1" Background="#FFFF9119" Margin="0,10,20,10" Visibility="{Binding GenreContVis}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Genre beheer" Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Style="{StaticResource SubTitle}" Padding="20,8,0,0"/>
+                <Button Content="Close" Command="{Binding CloseGenre}" Grid.Row="0" Grid.Column="3"/>
+                <ListBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="4" ItemsSource="{Binding GenreList}" SelectedItem="{Binding SelectedGenre}" DisplayMemberPath="GenreName"/>
+                <Button Content="Verwijderen"  Style="{StaticResource OptionMenuItem}" Command="{Binding VerwijderGenre}" Grid.Column="1" Grid.Row="1"/>
+                <Button Content="Wijzigen"  Style="{StaticResource OptionMenuItem}" Command="{Binding OpenWijzigGenre}" Grid.Column="2" Grid.Row="1"/>
+                <Button Content="Toevoegen" Style="{StaticResource OptionMenuItem}" Command="{Binding OpenToevoegenGenre}" Grid.Column="3" Grid.Row="1"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2"/>
+                <Button Grid.Row="2" Grid.Column="3" Content="Opslaan"/>
+                
+                </Grid>
             <Grid Grid.Column="0" Grid.Row="1" Background="#FFFF9119" Margin="0,10,20,10" Visibility="{Binding BandContVis}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
