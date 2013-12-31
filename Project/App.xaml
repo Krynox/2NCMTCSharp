@@ -212,27 +212,6 @@
       <Setter Property="Padding" Value="0,5,0,0" />
       <Setter Property="Width" Value="20" />
     </Style>
-    <Style x:Key="Dropdowns" TargetType="{x:Type ComboBox}">
-      <Setter Property="Background" Value="#FF95ceee" />
-      <Setter Property="Foreground" Value="#FFFFFFFF" />
-      <Setter Property="FontSize" Value="16" />
-      <Setter Property="FontWeight" Value="Bold" />
-      <Setter Property="Margin" Value="20,5,20,5" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-    </Style>
-    <Style TargetType="{x:Type ComboBoxItem}">
-      <Setter Property="Background" Value="#FF95ceee" />
-      <Setter Property="Foreground" Value="#FFFFFFFF" />
-      <Setter Property="FontFamily" Value="Ubuntu" />
-      <Setter Property="FontSize" Value="16" />
-      <Setter Property="FontWeight" Value="Bold" />
-      <Setter Property="Margin" Value="20,5,20,5" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="BorderBrush" Value="#FFFFFFFF" />
-      <Setter Property="HorizontalAlignment" Value="Center" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
     <Style x:Key="TicketingSubTitles" TargetType="{x:Type TextBlock}">
       <Setter Property="Foreground" Value="#FFFFFFFF" />
       <Setter Property="FontSize" Value="40" />

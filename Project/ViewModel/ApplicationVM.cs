@@ -15,6 +15,7 @@ namespace Project.ViewModel
             Pages.Add(new ContactPersonenViewModel());
             Pages.Add(new LineUpViewModel());
             Pages.Add(new TicketingViewModel());
+            Pages.Add(new SettingsViewModel());
 
             CurrentPage = Pages[0];
         }
@@ -44,6 +45,10 @@ namespace Project.ViewModel
 
         private void ChangePage(IPage page)
         {
+            if (page.Name == "Line-Up")
+            {
+                page = new LineUpViewModel();
+            }
             CurrentPage = page;
         }
     }

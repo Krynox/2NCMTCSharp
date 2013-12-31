@@ -29,7 +29,10 @@ namespace Project.ViewModel
             CloseVis = "Hidden";
             CloseTypeVis = "Hidden";
         }
+
+        
         #region Lists
+        
         private ObservableCollection<Ticket> _ticketList;
 
         public ObservableCollection<Ticket> TicketList
@@ -282,4 +285,103 @@ namespace Project.ViewModel
             if(SelectedType!=null)
             {
                  MessageBoxResult result = MessageBox.Show("Wil je " + SelectedType.Name.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+                if (result == MessageBoxResult.Yes)
+                {
+                    string message = TicketType.DeleteFunctie(SelectedType);
+                    if (message != null)
+                    {
+                        MessageBox.Show(message);
+                    }
+                    TicketTypeList = TicketType.GetTicketTypes();
+                }
+            }
+        }
+        private void OpslaanType()
+        {
+            TicketType.AddType(FormTicketType);
+            TicketTypeList = TicketType.GetTicketTypes();
+            CloseType();
+        }
+        private void EditType()
+        {
+            string message = TicketType.EditType(FormTicketType);
+            if (message != null)
+            {
+                MessageBox.Show(message);
+            }
+            else
+            {
+                CloseType();
+                TicketTypeList = TicketType.GetTicketTypes();
+            }
+        }
+        #endregion
+        #region Reservering
+        public ICommand TicketEditCommand
+        {
+            get { return new RelayCommand(EditTicket); }
+        }
+
+        private void EditTicket()
+        {
+            if ((SelectedType.AvailableTickets - Convert.ToInt32(TicketType.GetUsedTickets(SelectedType.ID))) >= FormTicket.Amount)
+            {
+                Ticket.EditTicket(FormTicket);
+                TicketList = Ticket.GetTickets();
+                TicketTypeList = TicketType.GetTicketTypes();
+                CloseClickAll();
+            }
+            else
+            {
+                MessageBox.Show("Er zijn niet genoeg tickets vrij van dit type");
+            }
+        }
+        public ICommand TicketAddCommand
+        {
+            get { return new RelayCommand(AddTicket); }
+        }
+
+        private void AddTicket()
+        {
+            if ((SelectedType.AvailableTickets-Convert.ToInt32(TicketType.GetUsedTickets(SelectedType.ID))) >= FormTicket.Amount)
+            {
+                Ticket.AddTicket(FormTicket);
+                TicketList = Ticket.GetTickets();
+                TicketTypeList = TicketType.GetTicketTypes();
+                CloseClickAll();
+            }
+            else {
+                MessageBox.Show("Er zijn niet genoeg tickets vrij van dit type");
+            }
+
+        }
+        public ICommand TicketSearchCommand
+        {
+            get { return new RelayCommand(TicketSearch); }
+        }
+
+        private void TicketSearch()
+        {
+            TicketList=Ticket.GetTicketsZoek(FormTicket.EntryName,FormTicket.TicketHolder,FormTicket.TicketType);
+            CloseClickAll();
+        }
+        public ICommand DeleteReserveringClick
+        {
+            get { return new RelayCommand(DeleteReservering); }
+        }
+        private void DeleteReservering()
+        {
+            if (SelectedTicket != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Wil je " + SelectedTicket.TicketHolder.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    Ticket.DeleteTicket(SelectedTicket);
+                    TicketList = Ticket.GetTickets();
+                    CloseClickAll();
+                }
+            }
+        }
+        #endregion
+    }
+}

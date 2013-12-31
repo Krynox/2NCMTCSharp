@@ -102,8 +102,12 @@
     </Compile>
     <Compile Include="ViewModel\LineUpViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TicketingViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\SettingControls.xaml.cs">
+      <DependentUpon>SettingControls.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TicketingControls.xaml.cs">
       <DependentUpon>TicketingControls.xaml</DependentUpon>
     </Compile>
@@ -137,6 +141,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\SettingControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TicketingControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

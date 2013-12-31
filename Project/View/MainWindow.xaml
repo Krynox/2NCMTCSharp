@@ -17,6 +17,9 @@
         <DataTemplate DataType="{x:Type vm:TicketingViewModel}">
             <v:TicketingControls/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <v:SettingControls/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
