@@ -7,7 +7,7 @@
              d:DesignHeight="700" d:DesignWidth="1500">
         <StackPanel>
         <WrapPanel Style="{StaticResource OptionMenuTicketType}">
-            <Grid >
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="3*"/>
@@ -45,14 +45,14 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1.5*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Toevoegen" Visibility="{Binding AddTypeVis}"/>
-                <TextBlock Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Wijzigen" Visibility="{Binding EditTypeVis}"/>
+                <TextBlock Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Toevoegen" Visibility="{Binding AddTypeVis}" Margin="0,0,0,20"/>
+                <TextBlock Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Wijzigen" Visibility="{Binding EditTypeVis}" Margin="0,0,0,20"/>
                 <TextBlock Style="{StaticResource ZoekLabels}" Grid.Column="0" Grid.Row="1" Text="Ticket naam:"/>
-                <TextBox Style="{StaticResource TextZoek}" Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.Name}"/>
+                <TextBox Style="{StaticResource TextZoek}" Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.Name,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
                 <TextBlock Style="{StaticResource ZoekLabels}" Grid.Column="2" Grid.Row="1" Text="Ticket Prijs:"/>
-                <TextBox Style="{StaticResource TextZoek}" Grid.Column="3" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.Price}"/>
+                <TextBox Style="{StaticResource TextZoek}" Grid.Column="3" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.Price,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
                 <TextBlock Style="{StaticResource ZoekLabels}" Grid.Column="4" Grid.Row="1" Text="Vrije plaatsen:"/>
-                <TextBox Style="{StaticResource TextZoek}" Grid.Column="5" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.AvailableTickets}"/>
+                <TextBox Style="{StaticResource TextZoek}" Grid.Column="5" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.AvailableTickets,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
                 <Button Style="{StaticResource ZoekButton}" Content="Opslaan" Grid.Column="5" Grid.Row="2" Margin="0,10,0,0" Visibility="{Binding AddTypeVis}" Command="{Binding OpslaanNewType}"/>
                 <Button Style="{StaticResource ZoekButton}" Content="Opslaan" Grid.Column="5" Grid.Row="2" Margin="0,10,0,0" Visibility="{Binding EditTypeVis}" Command="{Binding EditNewType}"/>
             </Grid>
@@ -61,6 +61,7 @@
             <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Verwijderen" Name="btnReseveringVerwijderen" Command="{Binding DeleteReserveringClick}"/>
             <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Toevoegen" Name="BtnReserveringToevoegen" Command="{Binding AddReserveringClick}"/>
             <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Wijzigen" Name="BtnReserveringWijzigen" Command="{Binding EditReserveringClick}" />
+            <Button Style="{StaticResource OptionMenuItem}" Content="Afdrukken Ticket"  Command="{Binding PrintTicketClick}"/>
             <Button Style="{StaticResource OptionMenuItem}" Name="BtnZoek" Command="{Binding ZoekReserveringClick}">Zoek</Button>
             <Button Content="Close" Style="{StaticResource Zoek}" Visibility="{Binding CloseVis}" Name="btnClose" Command="{Binding CloseClick}"/>
         </WrapPanel>
@@ -101,4 +102,32 @@
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Toevoegen" Grid.Column="0"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                <TextBlock Text="Toevoegen" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource SubTitle}" Visibility="{Binding AddVis}"/>
+                <TextBlock Text="Wijzigen" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"  Style="{StaticResource SubTitle}" Visibility="{Binding EditVis}"/>
+                <TextBlock Text="Naam" Grid.Column="0" Grid.Row="1" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}" Text="{Binding FormTicket.TicketHolder,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+                <TextBlock Text="Tickettype" Grid.Column="0" Grid.Row="2" Style="{StaticResource ZoekLabels}"/>
+                <ComboBox Grid.Column="1" Grid.Row="2" Style="{StaticResource CboZoek}" ItemsSource="{Binding TicketTypeList}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedType,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" SelectedIndex="{Binding TicketTypeIndex}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+                <TextBlock Text="E-Mail" Grid.Column="0" Grid.Row="3" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}" Text="{Binding FormTicket.TicketHolderEmail,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+                <TextBlock Text="Aantal" Grid.Column="0" Grid.Row="4" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}" Text="{Binding FormTicket.Amount,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"/>
+                <Button Content="Opslaan" Grid.Column="2" Grid.Row="5" Style="{StaticResource ZoekButton}" Command="{Binding TicketAddCommand}" Visibility="{Binding AddVis}"/>
+                <Button Content="Opslaan" Grid.Column="2" Grid.Row="5" Style="{StaticResource ZoekButton}" Command="{Binding TicketEditCommand}" Visibility="{Binding EditVis}"/>
+            </Grid>
+        </WrapPanel>
+        <ListView x:Name="lstContact" ItemsSource="{Binding TicketList}"  Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" SelectedItem="{Binding SelectedTicket}" BorderThickness="0" Style="{StaticResource ListViewStyle}" Height="{Binding WindowHeight}">
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderId}" Header="ID" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Naam" DisplayMemberBinding="{Binding TicketHolder}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Email" DisplayMemberBinding="{Binding TicketHolderEmail}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Type" DisplayMemberBinding="{Binding TicketType.Name}"/>
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Aantal" DisplayMemberBinding="{Binding Amount}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Datum" DisplayMemberBinding="{Binding OrderDate}" />
+                    <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeader}" Header="Naam reservering" DisplayMemberBinding="{Binding EntryName}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
+</UserControl>

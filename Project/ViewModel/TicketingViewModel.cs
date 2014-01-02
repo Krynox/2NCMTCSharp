@@ -1,11 +1,15 @@
-﻿using GalaSoft.MvvmLight.Command;
+﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace Project.ViewModel
@@ -28,9 +32,8 @@ namespace Project.ViewModel
             AddHeight = 0;
             CloseVis = "Hidden";
             CloseTypeVis = "Hidden";
+            WindowHeight = 600;
         }
-
-        
         #region Lists
         
         private ObservableCollection<Ticket> _ticketList;
@@ -50,7 +53,7 @@ namespace Project.ViewModel
         }
         #endregion
 
-        #region Selected        
+        #region Selected
         private int _ticketTypeIndex;
 
         public int TicketTypeIndex
@@ -75,23 +78,15 @@ namespace Project.ViewModel
         }
     #endregion
 
-        #region Controls
-        private Ticket _formTicket;
+        #region HeightsProps
+        private int _windowsHeight;
 
-        public Ticket FormTicket
+        public int WindowHeight
         {
-            get { return _formTicket; }
-            set { _formTicket = value; OnPropertyChanged("FormTicket"); }
-        }
-        private TicketType _formTicketType;
-
-        public TicketType FormTicketType
-        {
-            get { return _formTicketType; }
-            set { _formTicketType = value; OnPropertyChanged("FormTicketType"); }
+            get { return _windowsHeight; }
+            set { _windowsHeight = value; OnPropertyChanged("WindowHeight"); }
         }
         
-        #region Heights
         private int _zoekHeight;
 
         public int ZoekHeight
@@ -114,9 +109,27 @@ namespace Project.ViewModel
             get { return _typeHeight; }
             set { _typeHeight = value; OnPropertyChanged("TypeHeight"); }
         }
-        
+
         #endregion
-        #region Visibilty
+
+        #region FormWaarden
+        private Ticket _formTicket;
+
+        public Ticket FormTicket
+        {
+            get { return _formTicket; }
+            set { _formTicket = value; OnPropertyChanged("FormTicket"); }
+        }
+        private TicketType _formTicketType;
+
+        public TicketType FormTicketType
+        {
+            get { return _formTicketType; }
+            set { _formTicketType = value; OnPropertyChanged("FormTicketType"); }
+        }
+        #endregion
+
+        #region VisibiltyProps
         private string _closeVis;
 
         public string CloseVis
@@ -159,99 +172,31 @@ namespace Project.ViewModel
             get { return _editTypeVis; }
             set { _editTypeVis = value; OnPropertyChanged("EditTypeVis"); }
         }
-        
+
         #endregion
-        #region Commands
-        public ICommand AddReserveringClick
-        {
-            get { return new RelayCommand(OpenAdd); }
-        }
-        public ICommand ZoekReserveringClick
-        {
-            get { return new RelayCommand(ZoekReserveringOpen); }
-        }
+
+        #region CloseReservering
         public ICommand CloseClick
         {
             get { return new RelayCommand(CloseClickAll); }
         }
-        public ICommand CloseTypes
-        {
-            get { return new RelayCommand(CloseType); }
-        }
-        public ICommand OpenAddType
-        {
-            get { return new RelayCommand(OAddType); }
-        }
-        public ICommand OpenEditType
-        {
-            get { return new RelayCommand(OEditType); }
-        }
-        public ICommand DeleteType
-        {
-            get { return new RelayCommand(DType); }
-        }
-        public ICommand OpslaanNewType
-        {
-            get { return new RelayCommand(OpslaanType); }
-        }
-        public ICommand EditNewType
-        {
-            get { return new RelayCommand(EditType); }
-        }
-        public ICommand EditReserveringClick
-        {
-            get { return new RelayCommand(EditOpen); }
-        }
-        #endregion
         private void CloseClickAll()
         {
             ZoekHeight = 0;
             AddHeight = 0;
+            int CurrType = TicketTypeIndex;
             FormTicket = new Ticket();
+            TicketTypeIndex = CurrType;
             CloseVis = "Hidden";
+            WindowHeight = 600;
         }
-
-        private void EditOpen()
-        {
-            if (SelectedTicket != null)
-            { 
-            CloseClickAll();
-            AddHeight = 350;
-            EditVis = "Visible";
-            AddVis = "Hidden";
-            CloseVis = "Visible";
-            FormTicket = SelectedTicket;
-            int aantal = 0;
-            foreach (TicketType c in TicketTypeList)
-            {
-                if (c.ID == SelectedTicket.TicketType.ID)
-                {
-                    TicketTypeIndex = aantal;
-                }
-                aantal++;
-            }
-            }
-
-        }
-
-        private void OpenAdd()
-        {
-            CloseClickAll();
-            AddHeight = 350;
-            EditVis = "Hidden";
-            AddVis = "Visible";
-            CloseVis = "Visible";
-        }
-
-        private void ZoekReserveringOpen()
-        {
-            CloseClickAll();
-            ZoekHeight = 250;
-            CloseVis = "Visible";
-        }
-
         #endregion
-        #region Ticket
+
+        #region CloseType
+        public ICommand CloseTypes
+        {
+            get { return new RelayCommand(CloseType); }
+        }
         private void CloseType()
         {
             TypeHeight = 0;
@@ -259,15 +204,90 @@ namespace Project.ViewModel
             CloseTypeVis = "Hidden";
             AddTypeVis = "Hidden";
             EditTypeVis = "Hidden";
+            WindowHeight = 600;
+        }
+        #endregion
+
+        #region OpenReserveringAdd
+        public ICommand AddReserveringClick
+        {
+            get { return new RelayCommand(OpenAdd); }
+        }
+        private void OpenAdd()
+        {
+            int CurrType = TicketTypeIndex;
+            CloseClickAll();
+            AddHeight = 250;
+            EditVis = "Hidden";
+            AddVis = "Visible";
+            CloseVis = "Visible";
+            WindowHeight = 300;
+            TicketTypeIndex = CurrType;
+        }
+        #endregion
+
+        #region OpenReserveringEdit
+        public ICommand EditReserveringClick
+        {
+            get { return new RelayCommand(EditOpen, IsTicketSelected); }
+        }
+        private void EditOpen()
+        {
+            if (SelectedTicket != null)
+            {
+                CloseClickAll();
+                AddHeight = 250;
+                EditVis = "Visible";
+                AddVis = "Hidden";
+                CloseVis = "Visible";
+                FormTicket = SelectedTicket;
+                int aantal = 0;
+                WindowHeight = 300;
+                foreach (TicketType c in TicketTypeList)
+                {
+                    if (c.ID == SelectedTicket.TicketType.ID)
+                    {
+                        TicketTypeIndex = aantal;
+                    }
+                    aantal++;
+                }
+            }
+        }
+        #endregion
+
+        #region OpenReserveringZoek
+        public ICommand ZoekReserveringClick
+        {
+            get { return new RelayCommand(ZoekReserveringOpen); }
+        }
+        private void ZoekReserveringOpen()
+        {
+            CloseClickAll();
+            ZoekHeight = 250;
+            CloseVis = "Visible";
+        }
+        #endregion
+
+        #region OpenTypeAdd
+        public ICommand OpenAddType
+        {
+            get { return new RelayCommand(OAddType); }
         }
         private void OAddType()
         {
             CloseType();
             CloseTypeVis = "Visible";
             AddTypeVis = "Visible";
-            TypeHeight = 150;
+            TypeHeight = 200;
+            WindowHeight = 300;
         }
+        #endregion
 
+        #region OpenTypeEdit
+        public ICommand OpenEditType
+        {
+            get { return new RelayCommand(OEditType, IsTypeSelected); }
+        }
         private void OEditType()
         {
             if (SelectedType != null)
@@ -275,26 +295,41 @@ namespace Project.ViewModel
                 CloseType();
                 CloseTypeVis = "Visible";
                 EditTypeVis = "Visible";
-                TypeHeight = 150;
+                TypeHeight = 200;
+                WindowHeight = 300;
                 FormTicketType = SelectedType;
             }
 
         }
+        #endregion
+
+        #region DeleteType
+        public ICommand DeleteType
+        {
+            get { return new RelayCommand(DType, IsTypeSelected); }
+        }
         private void DType()
         {
-            if(SelectedType!=null)
+            if (SelectedType != null)
             {
-                 MessageBoxResult result = MessageBox.Show("Wil je " + SelectedType.Name.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult result = System.Windows.MessageBox.Show("Wil je " + SelectedType.Name.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     string message = TicketType.DeleteFunctie(SelectedType);
                     if (message != null)
                     {
-                        MessageBox.Show(message);
+                        System.Windows.MessageBox.Show(message);
                     }
                     TicketTypeList = TicketType.GetTicketTypes();
                 }
             }
+        }
+        #endregion
+
+        #region AddType
+        public ICommand OpslaanNewType
+        {
+            get { return new RelayCommand(OpslaanType, IsTypeComplete); }
         }
         private void OpslaanType()
         {
@@ -302,12 +337,19 @@ namespace Project.ViewModel
             TicketTypeList = TicketType.GetTicketTypes();
             CloseType();
         }
+        #endregion
+
+        #region EditType
+        public ICommand EditNewType
+        {
+            get { return new RelayCommand(EditType, IsTypeComplete); }
+        }
         private void EditType()
         {
             string message = TicketType.EditType(FormTicketType);
             if (message != null)
             {
-                MessageBox.Show(message);
+                System.Windows.MessageBox.Show(message);
             }
             else
             {
@@ -316,10 +358,11 @@ namespace Project.ViewModel
             }
         }
         #endregion
-        #region Reservering
+
+        #region EditTicket
         public ICommand TicketEditCommand
         {
-            get { return new RelayCommand(EditTicket); }
+            get { return new RelayCommand(EditTicket, IsTicketComplete); }
         }
 
         private void EditTicket()
@@ -333,47 +376,44 @@ namespace Project.ViewModel
             }
             else
             {
-                MessageBox.Show("Er zijn niet genoeg tickets vrij van dit type");
+                System.Windows.MessageBox.Show("Er zijn niet genoeg tickets vrij van dit type");
             }
         }
+        #endregion
+
+        #region AddTicket
         public ICommand TicketAddCommand
         {
-            get { return new RelayCommand(AddTicket); }
+            get { return new RelayCommand(AddTicket, IsTicketComplete); }
         }
 
         private void AddTicket()
         {
-            if ((SelectedType.AvailableTickets-Convert.ToInt32(TicketType.GetUsedTickets(SelectedType.ID))) >= FormTicket.Amount)
+            if ((SelectedType.AvailableTickets - Convert.ToInt32(TicketType.GetUsedTickets(SelectedType.ID))) >= FormTicket.Amount)
             {
                 Ticket.AddTicket(FormTicket);
                 TicketList = Ticket.GetTickets();
                 TicketTypeList = TicketType.GetTicketTypes();
                 CloseClickAll();
             }
-            else {
-                MessageBox.Show("Er zijn niet genoeg tickets vrij van dit type");
+            else
+            {
+                System.Windows.MessageBox.Show("Er zijn niet genoeg tickets vrij van dit type");
             }
 
         }
-        public ICommand TicketSearchCommand
-        {
-            get { return new RelayCommand(TicketSearch); }
-        }
+        #endregion
 
-        private void TicketSearch()
-        {
-            TicketList=Ticket.GetTicketsZoek(FormTicket.EntryName,FormTicket.TicketHolder,FormTicket.TicketType);
-            CloseClickAll();
-        }
+        #region DeleteTicket
         public ICommand DeleteReserveringClick
         {
-            get { return new RelayCommand(DeleteReservering); }
+            get { return new RelayCommand(DeleteReservering, IsTicketSelected); }
         }
         private void DeleteReservering()
         {
             if (SelectedTicket != null)
             {
-                MessageBoxResult result = MessageBox.Show("Wil je " + SelectedTicket.TicketHolder.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                MessageBoxResult result = System.Windows.MessageBox.Show("Wil je " + SelectedTicket.TicketHolder.Trim() + " verwijderen?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     Ticket.DeleteTicket(SelectedTicket);
@@ -383,5 +423,128 @@ namespace Project.ViewModel
             }
         }
         #endregion
+
+        #region SearchTicket
+        public ICommand TicketSearchCommand
+        {
+            get { return new RelayCommand(TicketSearch); }
+        }
+
+        private void TicketSearch()
+        {
+            TicketList = Ticket.GetTicketsZoek(FormTicket.EntryName, FormTicket.TicketHolder, FormTicket.TicketType);
+            CloseClickAll();
+        }
+        #endregion
+
+        #region TicketPrint
+        public ICommand PrintTicketClick
+        {
+            get { return new RelayCommand(TicketPrint, IsTicketSelected); }
+        }
+
+        private  void TicketPrint()
+        {
+            FolderBrowserDialog f = new FolderBrowserDialog();
+            DialogResult r = f.ShowDialog();
+
+            if (r == DialogResult.OK)
+            {
+                string path = f.SelectedPath;
+                Ticket s = new Ticket();
+                Print(SelectedTicket, path);
+            }
+        }
+        #endregion
+
+        public static void Print(Ticket SelectedTicket, string path)
+        {
+            string fileName = SelectedTicket.TicketHolder.Trim() + SelectedTicket.TicketType.Name.Trim() + ".docx";
+            string finalPath = path + "\\" + fileName;
+
+            string code = SelectedTicket.TicketHolder + SelectedTicket.ID;
+
+            try
+            {
+                File.Copy("template.docx", finalPath, true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            WordprocessingDocument doc = WordprocessingDocument.Open(finalPath, true);
+            IDictionary<string, BookmarkStart> bookmarks = new Dictionary<string, BookmarkStart>();
+
+            foreach (BookmarkStart bms in doc.MainDocumentPart.RootElement.Descendants<BookmarkStart>())
+            {
+                bookmarks[bms.Name] = bms;
+            }
+            string TicketCode = SelectedTicket.ID + SelectedTicket.TicketHolder[0] + SelectedTicket.TicketHolder[1] + SelectedTicket.TicketHolder[2];
+            bookmarks["TicketName"].Parent.InsertAfter<Run>(new Run(new Text("Electronic Rampage")), bookmarks["TicketName"]);
+            bookmarks["Name"].Parent.InsertAfter<Run>(new Run(new Text(SelectedTicket.TicketHolder)), bookmarks["Name"]);
+            bookmarks["Code"].Parent.InsertAfter<Run>(new Run(new Text(TicketCode)), bookmarks["Code"]);
+            bookmarks["TicketType"].Parent.InsertAfter<Run>(new Run(new Text(SelectedTicket.TicketType.Name)), bookmarks["TicketType"]);
+
+            Run run = new Run(new Text(code));
+            RunProperties prop = new RunProperties();
+            RunFonts font = new RunFonts() { Ascii = "Free 3 of 9 Extended", HighAnsi = "Free 3 of 9 Extended" };
+            FontSize size = new FontSize() { Val = SelectedTicket.ID.ToString() };
+
+            prop.Append(font);
+            prop.Append(size);
+            run.PrependChild<RunProperties>(prop);
+
+            bookmarks["Barcode"].Parent.InsertAfter<Run>(run, bookmarks["Barcode"]);
+
+            doc.Close();
+            System.Windows.MessageBox.Show("Ticket is aangemaakt");
+        }
+
+        private bool IsTypeSelected()
+        {
+            if (SelectedType!=null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool IsTicketSelected()
+        {
+            if (SelectedTicket!=null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //IsValid Werkt niet in deze configuartie dus heb ik een kleine oplossing geschreven (niet volledig er zit geen datavalidatie in)
+        private bool IsTypeComplete()
+        {
+            if (FormTicketType.Name != null && FormTicketType.Price != 0 && FormTicketType.AvailableTickets!=0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        private bool IsTicketComplete()
+        {
+            if (FormTicket.TicketHolder != null && FormTicket.TicketHolderEmail != null && FormTicket.TicketType != null && FormTicket.Amount!=0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

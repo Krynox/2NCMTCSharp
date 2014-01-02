@@ -21,7 +21,7 @@
             <v:SettingControls/>
         </DataTemplate>
     </Window.Resources>
-    <Grid>
+    <Grid Background="#FF9f9e9e">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>

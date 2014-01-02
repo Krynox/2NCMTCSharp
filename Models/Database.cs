@@ -9,7 +9,7 @@ using System.Configuration;
 
 namespace Project.Model
 {
-        class Database
+        public class Database
         {
             //Add Refernces System.configuaritions
             private static ConnectionStringSettings ConnectionString

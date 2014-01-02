@@ -51,12 +51,12 @@
             </Grid.ColumnDefinitions>
             <TextBlock Style="{StaticResource SubTitle}" Text="Stages" Grid.Row="0" Grid.Column="0" Margin="20,40,20,0"/>
             <ListBox  Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" ItemsSource="{Binding StageList}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedStage}" Grid.ColumnSpan="1" Margin="10"/>
-            <Button Content="Verwijderen" Grid.Row="1" Grid.Column="1"  Margin="2,20,2,20" Command="{Binding VerwijderStageClick}"/>
-            <Button Content="Toevoegen" Grid.Row="1" Grid.Column="2"  Margin="2,20,2,20" Command="{Binding ToevoegenOpenClick}"/>
-            <Button Content="Wijzigen" Grid.Row="1" Grid.Column="3"  Margin="2,20,2,20" Command="{Binding WijzigenOpenClick}"/>
-            <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,20,0,20" Text="{Binding TxtStage}"/>
-            <Button Grid.Column="3" Grid.Row="2" Content="Opslaan" Margin="8,20,8,20" Command="{Binding StageWijzigenClick}" Visibility="{Binding EditVis}" />
-            <Button Grid.Column="3" Grid.Row="2" Content="Opslaan" Margin="8,20,8,20" Command="{Binding StageToevoegenClick}" Visibility="{Binding AddVis}" />
+            <Button Content="Verwijderen" Grid.Row="1" Grid.Column="1"  Margin="5,25,5,25" Command="{Binding VerwijderStageClick}" Style="{StaticResource ZoekButton}"/>
+            <Button Content="Toevoegen" Grid.Row="1" Grid.Column="2"  Margin="5,25,5,25" Command="{Binding ToevoegenOpenClick}" Style="{StaticResource ZoekButton}"/>
+            <Button Content="Wijzigen" Grid.Row="1" Grid.Column="3"  Margin="5,25,5,25" Command="{Binding WijzigenOpenClick}" Style="{StaticResource ZoekButton}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,20,0,20" Text="{Binding TxtStage}" Style="{StaticResource TextZoek}"/>
+            <Button Grid.Column="3" Grid.Row="2" Content="Opslaan" Margin="8,20,8,20" Command="{Binding StageWijzigenClick}" Visibility="{Binding EditVis}" Style="{StaticResource ZoekButton}"/>
+            <Button Grid.Column="3" Grid.Row="2" Content="Opslaan" Margin="8,20,8,20" Command="{Binding StageToevoegenClick}" Visibility="{Binding AddVis}" Style="{StaticResource ZoekButton}"/>
         </Grid>
     </Grid>
 </UserControl>

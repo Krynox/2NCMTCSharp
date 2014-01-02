@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    class Festival
+    public class Festival
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

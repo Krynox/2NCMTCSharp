@@ -2,24 +2,37 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
+using System.Windows;
 
 namespace Project
 {
-    class Band
+    public class Band : IDataErrorInfo
     {
         public string ID { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
+        [Required]
         public byte[] Picture { get; set; }
+        [Required]
+        [StringLength(300, MinimumLength = 3)]
         public string Description { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string Twitter { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string Facebook { get; set; }
+        [Required]
+        [EnsureMinimumElements(1)]
         public ObservableCollection<Genre> Genres{ get; set; }
 
         public Band()
@@ -107,20 +120,22 @@ namespace Project
         {
             if (ImagePath != null)
             {
-                Database.ModifyData("UPDATE tbl_bands SET BandName=@name,Description=@desc,Twitter=@twitter,Facebook=@facebook,Picture,@pic",
-                    Database.AddParameter("@name",SelectedBand.Name),
-                    Database.AddParameter("@desc",SelectedBand.Description),
-                    Database.AddParameter("@twitter",SelectedBand.Twitter),
-                    Database.AddParameter("@facebook",SelectedBand.Facebook),
-                    Database.AddParameter("@pic",GetPhoto(ImagePath))
-                 );
-            }
-            else {
-                Database.ModifyData("UPDATE tbl_bands SET BandName=@name,Description=@desc,Twitter=@twitter,Facebook=@facebook",
+                Database.ModifyData("UPDATE tbl_bands SET BandName=@name,Description=@desc,Twitter=@twitter,Facebook=@facebook,Picture=@pic WHERE ID=@id",
                     Database.AddParameter("@name", SelectedBand.Name),
                     Database.AddParameter("@desc", SelectedBand.Description),
                     Database.AddParameter("@twitter", SelectedBand.Twitter),
-                    Database.AddParameter("@facebook", SelectedBand.Facebook)
+                    Database.AddParameter("@facebook", SelectedBand.Facebook),
+                    Database.AddParameter("@pic", GetPhoto(ImagePath)),
+                    Database.AddParameter("@id", Convert.ToInt32(SelectedBand.ID))
+                 );
+            }
+            else {
+                Database.ModifyData("UPDATE tbl_bands SET BandName=@name,Description=@desc,Twitter=@twitter,Facebook=@facebook WHERE ID=@id",
+                    Database.AddParameter("@name", SelectedBand.Name),
+                    Database.AddParameter("@desc", SelectedBand.Description),
+                    Database.AddParameter("@twitter", SelectedBand.Twitter),
+                    Database.AddParameter("@facebook", SelectedBand.Facebook),
+                    Database.AddParameter("@id", Convert.ToInt32(SelectedBand.ID))
                  );
             }
             Database.ModifyData("DELETE FROM tbl_genresBands WHERE BandID=@id",
@@ -159,6 +174,48 @@ namespace Project
                 band=Create(db);
             }
             return band;
+        }
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
+        }
+        public string Error
+        {
+            get { return null; }
+        }
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null) { MemberName = columnName });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+        public class EnsureMinimumElementsAttribute : ValidationAttribute
+        {
+            private readonly int _minElements;
+            public EnsureMinimumElementsAttribute(int minElements)
+            {
+                _minElements = minElements;
+            }
+
+            public override bool IsValid(object value)
+            {
+                var list = value as ObservableCollection<Genre>;
+                if (list.Count != 0)
+                {
+                    return list.Count >= _minElements;
+                }
+                return false;
+            }
         }
     }
 }

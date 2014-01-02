@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    class Stage
+    public class Stage
     {
         public string ID { get; set; }
         public string Name { get; set; }
 
-        internal static ObservableCollection<Stage> GetStages()
+        public static ObservableCollection<Stage> GetStages()
         {
             ObservableCollection<Stage> stages = new ObservableCollection<Stage>();
             DbDataReader reader = Database.GetData("SELECT * FROM tbl_stage");

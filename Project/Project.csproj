@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.5\lib\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight.Extras.WPF45, Version=4.2.30.23246, Culture=neutral, PublicKeyToken=0e27b6f8be9b2ef7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MvvmLightLibs.4.2.30.0\lib\net45\GalaSoft.MvvmLight.Extras.WPF45.dll</HintPath>
@@ -47,6 +50,7 @@
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -72,34 +76,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Band.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\Contactperson.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\ContactpersonType.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\Database.cs" />
-    <Compile Include="Model\Festival.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\Genre.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\LineUp.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\Stage.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\Ticket.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Model\TicketType.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ViewModel\LineUpViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
@@ -184,6 +160,13 @@
   <ItemGroup>
     <Resource Include="Resources\Add.png" />
     <Resource Include="Resources\header.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{a4415fcd-740c-4519-92e5-f1ca4ea59c02}</Project>
+      <Name>Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

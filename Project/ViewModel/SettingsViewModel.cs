@@ -26,6 +26,7 @@ namespace Project.ViewModel
             DtStartDate = DateTime.Now;
             DtEndDate = DateTime.Now;
         }
+        #region DatesProps
         private DateTime _dtStartDate;
 
         public DateTime DtStartDate
@@ -40,7 +41,7 @@ namespace Project.ViewModel
             get { return _dtEndDate; }
             set { _dtEndDate = value; OnPropertyChanged("DtEndDate"); }
         }
-        
+
         private string _txtStartDate;
 
         public string TxtStartDate
@@ -55,6 +56,9 @@ namespace Project.ViewModel
             get { return _txtEndDate; }
             set { _txtEndDate = value; OnPropertyChanged("TxtEndDate"); }
         }
+        #endregion
+
+        #region Selected
         private Stage _selectedStage;
 
         public Stage SelectedStage
@@ -62,7 +66,9 @@ namespace Project.ViewModel
             get { return _selectedStage; }
             set { _selectedStage = value; OnPropertyChanged("SelectedStage"); }
         }
-        
+        #endregion
+
+        #region Lists
         private ObservableCollection<Stage> _stageList;
 
         public ObservableCollection<Stage> StageList
@@ -70,6 +76,9 @@ namespace Project.ViewModel
             get { return _stageList; }
             set { _stageList = value; OnPropertyChanged("StageList"); }
         }
+        #endregion
+
+        #region Visibiltyprops
         private string _editVis;
 
         public string EditVis
@@ -84,6 +93,8 @@ namespace Project.ViewModel
             get { return _addVis; }
             set { _addVis = value; OnPropertyChanged("AddVis"); }
         }
+        #endregion
+
         private string _txtStage;
 
         public string TxtStage
@@ -91,6 +102,7 @@ namespace Project.ViewModel
             get { return _txtStage; }
             set { _txtStage = value; OnPropertyChanged("TxtStage"); }
         }
+        #region EditDateSave
         public ICommand EditDatesClick
         {
             get { return new RelayCommand(EditDates); }
@@ -117,7 +129,9 @@ namespace Project.ViewModel
             }
 
         }
+        #endregion
 
+        #region OpenSaveStage
         public ICommand ToevoegenOpenClick
         {
             get { return new RelayCommand(ToevoegenOpen); }
@@ -129,6 +143,9 @@ namespace Project.ViewModel
             AddVis = "Visible";
             EditVis = "Hidden";
         }
+        #endregion
+
+        #region OpenEditStage
         public ICommand WijzigenOpenClick
         {
             get { return new RelayCommand(WijzigenOpen); }
@@ -144,6 +161,9 @@ namespace Project.ViewModel
             }
 
         }
+        #endregion
+
+        #region AddStage
         public ICommand StageToevoegenClick
         {
             get { return new RelayCommand(StageToevoegen); }
@@ -154,6 +174,9 @@ namespace Project.ViewModel
             Stage.AddStage(TxtStage);
             StageList = Stage.GetStages();
         }
+        #endregion
+
+        #region EditStage
         public ICommand StageWijzigenClick
         {
             get { return new RelayCommand(StageWijzigen); }
@@ -161,11 +184,14 @@ namespace Project.ViewModel
 
         private void StageWijzigen()
         {
-            Stage.EditStage(TxtStage,SelectedStage);
+            Stage.EditStage(TxtStage, SelectedStage);
             TxtStage = "";
             StageList = Stage.GetStages();
         }
         
+        #endregion
+
+        #region DeleteStage
         public ICommand VerwijderStageClick
         {
             get { return new RelayCommand(VerwijderStage); }
@@ -187,6 +213,8 @@ namespace Project.ViewModel
                 }
             }
         }
+        #endregion
+        
         
     }
 }

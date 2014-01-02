@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -10,10 +12,13 @@ using System.Threading.Tasks;
 
 namespace Project
 {
-    class Genre
+    public class Genre : IDataErrorInfo
     {
         public string ID { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string GenreName { get; set; }
+
         public static ObservableCollection<Genre> GetGenres()
         {
             ObservableCollection<Genre> contacts = new ObservableCollection<Genre>();
@@ -30,7 +35,7 @@ namespace Project
             return new Genre()
             {
                 ID = record["ID"].ToString(),
-                GenreName = record["Genre"].ToString(),
+                GenreName = record["Genre"].ToString().Trim(),
             };
         }
 
@@ -78,6 +83,30 @@ namespace Project
                 Database.AddParameter("@name", EditGenre),
                 Database.AddParameter("@lastname", p)
                 );
+        }
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
+        }
+        public string Error
+        {
+            get { return null; }
+        }
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null) { MemberName = columnName });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
         }
     }
 }

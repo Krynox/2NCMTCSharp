@@ -10,19 +10,45 @@ using Project.Model;
 using System.Data;
 using System.Configuration;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project
 {
-    class Contactperson: IDataErrorInfo
+    public class Contactperson :IDataErrorInfo
     {
-        public string ID { get; set; }
+
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string Name { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 3)]
         public string Company { get; set; }
+
+        [Required]
         public ContactpersonType JobRole { get; set; }
+
+        [Required]
+        [StringLength(30, MinimumLength = 3)]
         public string City { get; set; }
+
+        [Required]
+        //[RegularExpression(@"^(?("")("".+?""@)|(([0-9a-zA-Z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-zA-Z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,6}))$"]
+        [StringLength(50, MinimumLength = 3)]
         public string Email  { get; set; }
+
+        [Required]
+        //[RegularExpression(@"\+3[23](?:\s*?\(0\))?(?:\s*?\d){8}$")]
+        [StringLength(20, MinimumLength = 3)]
         public string Phone { get; set; }
+
+        [Required]
+        //[RegularExpression(@"\+3[23](?:\s*?\(0\))?(?:\s*?\d){9}$"]
+        [StringLength(20, MinimumLength = 3)]
         public string CellPhone { get; set; }
+
+        public string ID { get; set; }
 
         public static ObservableCollection<Contactperson> GetContactPersons()
         {
@@ -99,6 +125,30 @@ namespace Project
                 contacts.Add(Create(db));
             }
             return contacts;
+        }
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
+        }
+        public string Error
+        {
+            get { return null; }
+        }
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null) { MemberName = columnName });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
         }
     }
 }

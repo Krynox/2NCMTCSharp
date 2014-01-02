@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Project.View.TicketingControls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1500">
+        <StackPanel>
+        <WrapPanel Style="{StaticResource OptionMenuTicketType}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Aantal Tickets Vrij:" Style="{StaticResource TicketingSubTitles}"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Name="TxbAantalVrij" Text="{Binding SelectedType.UsedTickets}" Style="{StaticResource TicketingAantal}"/>
+                <ComboBox Grid.Column="2"  ItemsSource="{Binding TicketTypeList}"  Style="{StaticResource TicketType}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedType}" SelectedIndex="{Binding TicketTypeIndex}" />
+                <Button Grid.Column="3" Content="Toevoegen" Style="{StaticResource AddTicket}" Command="{Binding OpenAddType}"/>
+                <Button Grid.Column="4" Content="Wijzigen" Style="{StaticResource AddTicket}" Command="{Binding OpenEditType}" />
+                <Button Grid.Column="5" Content="Verwijderen" Style="{StaticResource AddTicket}" Command="{Binding DeleteType}"/>
+                <Button Grid.Column="6" Content="Close" Style="{StaticResource AddTicket}" Command="{Binding CloseTypes}" Visibility="{Binding CloseTypeVis}"/>
+            </Grid>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource ZoekMenu}" Height="{Binding TypeHeight}">
+            <Grid Style="{StaticResource InnerWrapGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Toevoegen" Visibility="{Binding AddTypeVis}"/>
+                <TextBlock Style="{StaticResource SubTitle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Wijzigen" Visibility="{Binding EditTypeVis}"/>
+                <TextBlock Style="{StaticResource ZoekLabels}" Grid.Column="0" Grid.Row="1" Text="Ticket naam:"/>
+                <TextBox Style="{StaticResource TextZoek}" Grid.Column="1" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.Name}"/>
+                <TextBlock Style="{StaticResource ZoekLabels}" Grid.Column="2" Grid.Row="1" Text="Ticket Prijs:"/>
+                <TextBox Style="{StaticResource TextZoek}" Grid.Column="3" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.Price}"/>
+                <TextBlock Style="{StaticResource ZoekLabels}" Grid.Column="4" Grid.Row="1" Text="Vrije plaatsen:"/>
+                <TextBox Style="{StaticResource TextZoek}" Grid.Column="5" Grid.Row="1" Margin="0,0,10,0" Text="{Binding FormTicketType.AvailableTickets}"/>
+                <Button Style="{StaticResource ZoekButton}" Content="Opslaan" Grid.Column="5" Grid.Row="2" Margin="0,10,0,0" Visibility="{Binding AddTypeVis}" Command="{Binding OpslaanNewType}"/>
+                <Button Style="{StaticResource ZoekButton}" Content="Opslaan" Grid.Column="5" Grid.Row="2" Margin="0,10,0,0" Visibility="{Binding EditTypeVis}" Command="{Binding EditNewType}"/>
+            </Grid>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource OptionMenu}">
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Verwijderen" Name="btnReseveringVerwijderen" Command="{Binding DeleteReserveringClick}"/>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Toevoegen" Name="BtnReserveringToevoegen" Command="{Binding AddReserveringClick}"/>
+            <Button Style="{StaticResource OptionMenuItem}" Content="Reservering Wijzigen" Name="BtnReserveringWijzigen" Command="{Binding EditReserveringClick}" />
+            <Button Style="{StaticResource OptionMenuItem}" Name="BtnZoek" Command="{Binding ZoekReserveringClick}">Zoek</Button>
+            <Button Content="Close" Style="{StaticResource Zoek}" Visibility="{Binding CloseVis}" Name="btnClose" Command="{Binding CloseClick}"/>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource ZoekMenu}"  Name="ZoekMenuWrap" Height="{Binding ZoekHeight}">
+            <Grid Style="{StaticResource InnerWrapGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Zoek" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource SubTitle}"/>
+                <TextBlock Text="Naam" Grid.Column="0" Grid.Row="1" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}" Text="{Binding FormTicket.TicketHolder}"/>
+                <TextBlock Text="Naam reservering" Grid.Column="0" Grid.Row="2" Style="{StaticResource ZoekLabels}"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource TextZoek}" Text="{Binding FormTicket.EntryName}"/>
+                <TextBlock Text="Tickettype" Grid.Column="0" Grid.Row="3" Style="{StaticResource ZoekLabels}"/>
+                <ComboBox Grid.Column="1" Grid.Row="3" Style="{StaticResource CboZoek}" ItemsSource="{Binding TicketTypeList}" DisplayMemberPath="Name" SelectedItem="{Binding FormTicket.TicketType}" SelectedIndex="{Binding TicketTypeIndex}"/>
+                <Button Content="Zoek" Grid.Column="1" Grid.Row="4"  Style="{StaticResource ZoekButton}"  Command="{Binding TicketSearchCommand}"/>
+            </Grid>
+        </WrapPanel>
+        <WrapPanel Style="{StaticResource AddMenu}" Name="AddMenuWrap" Height="{Binding AddHeight}">
+            <Grid Style="{StaticResource InnerWrapGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Toevoegen" Grid.Column="0"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
