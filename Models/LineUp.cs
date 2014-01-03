@@ -37,7 +37,34 @@ namespace Project
             }
             return lineups;
         }
+        public static ObservableCollection<LineUp> GetLineUp(DateTime dateTime)
+        {
+            ObservableCollection<LineUp> lineups = new ObservableCollection<LineUp>();
 
+            DbDataReader reader = Database.GetData("SELECT tbl_lineup.ID as ID,DatePreformance,FromTime,UntilTime,Band,Stage FROM tbl_lineup WHERE DatePreformance=@date ORDER BY FromTime",
+                Database.AddParameter("@date", Convert.ToDateTime(dateTime))
+                );
+            foreach (IDataRecord db in reader)
+            {
+                lineups.Add(CreateFull(db));
+            }
+            reader.Close();
+
+            return lineups;
+        }
+
+        private static LineUp CreateFull(IDataRecord db)
+        {
+            return new LineUp()
+            {
+                ID = db["ID"].ToString(),
+                Date = Convert.ToDateTime(db["DatePreformance"]),
+                From = db["FromTime"].ToString(),
+                Until = db["UntilTime"].ToString(),
+                Stage = Stage.GetStage(db["Stage"].ToString()),
+                Band = Band.GetBands(db["Band"].ToString()),
+            };
+        }
         private static LineUp Create(IDataRecord db, Stage SelectedStage)
         {
             return new LineUp()
@@ -192,5 +219,6 @@ namespace Project
                 return String.Empty;
             }
         }
+
     }
 }

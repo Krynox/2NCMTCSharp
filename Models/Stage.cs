@@ -25,6 +25,16 @@ namespace Project
             }
             return stages;
         }
+        public static Stage GetStage(string p)
+        {
+            Stage stage = new Stage();
+            DbDataReader reader = Database.GetData("SELECT * FROM tbl_stage WHERE ID=@id",Database.AddParameter("@id",Convert.ToInt32(p)));
+            foreach (IDataRecord db in reader)
+            {
+                stage=(Create(db));
+            }
+            return stage;
+        }
         private static Stage Create(IDataRecord record)
         {
             return new Stage()
@@ -57,5 +67,7 @@ namespace Project
         {
             Database.ModifyData("UPDATE tbl_stage SET StageName=@name WHERE ID=@id", Database.AddParameter("@name", TxtStage), Database.AddParameter("@id",Convert.ToInt32(SelectedStage.ID)));
         }
+
+
     }
 }

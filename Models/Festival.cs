@@ -41,6 +41,7 @@ namespace Project
                 fest.StartDate = Convert.ToDateTime(db["StartDate"]);
                 fest.EndDate = Convert.ToDateTime(db["EndDate"]);
             }
+            reader.Close();
             return fest;
         }
 

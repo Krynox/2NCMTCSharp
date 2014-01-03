@@ -47,6 +47,7 @@ namespace Project
             fs.Close();
             return data;
         }
+
         public static void CreateBand(Band FormBand, string ImagePath)
         {
             int last = 0;
@@ -70,6 +71,7 @@ namespace Project
                     Database.AddParameter("@BandID",last)
                 );
             }
+            reader.Close();
         }
 
         public static ObservableCollection<Band> GetBands()
@@ -80,6 +82,7 @@ namespace Project
             {
                 bands.Add(Create(db));
             }
+            reader.Close();
             return bands;
         }
 
@@ -114,8 +117,10 @@ namespace Project
                 Database.ModifyData("DELETE FROM tbl_bands WHERE ID=@id", Database.AddParameter("@id", Convert.ToInt32(SelectedBand.ID)));
 
             }
+            reader.Close();
             return null;
         }
+
         public static void EditBand(Band SelectedBand, string ImagePath)
         {
             if (ImagePath != null)
@@ -160,6 +165,7 @@ namespace Project
             {
                 bands.Add(Create(db));
             }
+            reader.Close();
             return bands;
         }
 
@@ -173,8 +179,10 @@ namespace Project
             {
                 band=Create(db);
             }
+            reader.Close();
             return band;
         }
+
         public bool IsValid()
         {
             return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);

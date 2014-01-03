@@ -47,7 +47,7 @@ namespace Project.ViewModel
         {
             if (page.Name == "Line-Up")
             {
-               // page = new LineUpViewModel();
+               page = new LineUpViewModel();
             }
             CurrentPage = page;
         }

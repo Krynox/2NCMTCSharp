@@ -1,0 +1,15 @@
+﻿@model Project.Band
+
+@{
+    ViewBag.Title = "GoToBand";
+}
+<div class="banddetailcont">
+    <h2>@Html.DisplayFor(model => model.Name)</h2>
+    <img id="BandFoto" src="@Url.Action("GetFoto", "Lineup", new {id = Model.ID}, null)" alt="@Model.Name" />
+    <div>
+    <p>@Html.DisplayFor(model => model.Description)</p>
+    Twitter: <a href="http://@Html.DisplayFor(model => model.Twitter)">@Html.DisplayFor(model => model.Twitter)</a><br />
+    Facebook: <a href="http://@Html.DisplayFor(model => model.Facebook)">@Html.DisplayFor(model => model.Facebook)</a>
+    </div>
+</div>
+

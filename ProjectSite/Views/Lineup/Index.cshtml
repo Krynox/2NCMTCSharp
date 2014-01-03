@@ -1,0 +1,41 @@
+﻿@model ProjectSite.ViewModel.LineUpVM
+
+@{
+    ViewBag.Title = "Index";
+}
+<h3>Festivaldagen</h3>
+<div class="dagcont">
+@foreach (var item in Model.Dates) {
+
+            <a href="@Url.Action("ChangeDate", "Lineup", new { day=@item},null)">@Html.DisplayFor(modelItem => item)</a>
+}
+</div>
+<div class="clear">&nbsp;</div>
+
+@foreach (var item in Model.StageList) {
+    <div class="lineupcont">
+        <h3 class="stageheaders">@Html.DisplayFor(modelItem => item.Name)</h3>
+    <table class="lineuptabel">
+        <tr>
+            <th>Artist</th>
+            <th>Van</th>
+            <th>Tot</th>
+        </tr>
+        @foreach (var i in Model.LineUpList)
+        {
+            if(i.Stage.ID==item.ID)
+            {
+              <tr>
+                  <td><a href="@Url.Action("GoToBand", "Lineup", new { id=@i.Band.ID},null)">@Html.DisplayFor(modelItem => i.Band.Name)</a></td>
+                  <td>@Html.DisplayFor(modelItem => i.From)</td>
+                  <td>@Html.DisplayFor(modelItem => i.Until)</td>
+              </tr>
+            }
+
+        }
+    </table>
+    </div>
+        
+}
+
+
