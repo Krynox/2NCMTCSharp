@@ -1,0 +1,42 @@
+﻿@model ProjectSite.ViewModel.TicketVM
+
+@{
+    ViewBag.Title = "BestelTicket";
+}
+
+<h2>Bestel Ticket</h2>
+<div>
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+
+                @Html.LabelFor(model => model.ticket.TicketHolder,"Naam Tickethouder")
+
+                @Html.EditorFor(model => model.ticket.TicketHolder)
+                @Html.ValidationMessageFor(model => model.ticket.TicketHolder)<br />
+
+                @Html.LabelFor(model => model.ticket.TicketHolderEmail,"Email Tickethouder")
+
+                @Html.EditorFor(model => model.ticket.TicketHolderEmail)
+                @Html.ValidationMessageFor(model => model.ticket.TicketHolderEmail)<br />
+
+                @Html.LabelFor(model => model.typeList,"Type Ticket")
+
+                @Html.DropDownList("SelectedType", @Model.typeList)<br />
+
+                @Html.LabelFor(model => model.ticket.Amount,"Aantal Tickets")
+
+                @Html.EditorFor(model => model.ticket.Amount)
+                @Html.ValidationMessageFor(model => model.ticket.Amount)<br />
+
+        <div class="errormsg">@Html.DisplayFor(model => model.error)</div>
+        <input type="submit" value="Bestellen" />
+}
+</div>
+<div class="backLink">
+    @Html.ActionLink("Terug naar Overzicht", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

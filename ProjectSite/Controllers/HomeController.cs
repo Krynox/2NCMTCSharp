@@ -16,7 +16,6 @@ namespace ProjectSite.Controllers
             ObservableCollection<Band> selectedbands = new ObservableCollection<Band>();
             List<int> randoms = new List<int>();
             Random rnd = new Random();
-            bool ok = false;
             allbands = Band.GetBands();
             for (int i = 0; i < 4; i++)
             {

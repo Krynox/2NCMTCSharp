@@ -4,6 +4,47 @@
 h2 {
     font-size:30px;
 }
+/*Titel*/
+.Titel a{
+    font-size:42px;
+    color:#FFFFFF;
+    text-decoration:none;
+    font-weight:800;
+    border-bottom:1px solid #fff;
+
+}
+/*EndTitel*/
+/*loginknoppen*/
+#loginknoppen ul li{
+    background-color:#808080;
+    list-style:none;
+    padding:5px;
+    float:right;
+    margin-bottom:10px;
+    margin-right:5px;
+}
+#loginknoppen ul li a{
+    text-decoration:none;
+    color:#FFFFFF;
+}
+#loginknoppen ul li a:hover{
+    text-decoration:none;
+    color:#000000;
+}
+#logouttext {
+    float:right;
+}
+#logouttext a{
+    color:#FFFFFF;
+    background-color:#808080;
+    padding:5px;
+    text-decoration:none;
+}
+#logouttext a:hover{
+    text-decoration:none;
+    color:#000000;
+}
+/*Endloginknoppen*/
 /* Displaybands*/
 div.displaycont {
     background-color:#FF8400;
@@ -13,8 +54,8 @@ div.displaycont {
     border:1px solid #ff6a00;
     border-radius:15px;
     width:400px;
-    margin-right:10px;
-    margin-left:10px;
+    margin-right:19px;
+    margin-left:19px;
     float:left;
 }
 div.displaycont h3{
@@ -42,43 +83,46 @@ div.displaycont img{
     float:left;
 }
 /*End Display*/
-
 .clear {
     clear:both;
 }
 /*Menu*/
-ul#menu {
+ul#mainmenu {
     font-size: 1.3em;
-    font-weight: 600;
+    font-weight: bold;
     margin: 0 0 5px;
     padding: 0;
     text-align: right;
+    float:left;
 }
-ul#menu li 
+ul#mainmenu li 
 {
     display: inline;
     list-style: none;
     padding-left: 15px;
 }
-ul#menu li a 
+ul#mainmenu li a 
 {
     background: none;
     color: #FFFFFF;
     text-decoration: none;
 }
-ul#menu li a:hover 
+ul#mainmenu li a:hover 
 {
     color: #000000;
     text-decoration: none;
 }
 /*EndMenu*/
-
 /*DagCont*/
 div.dagcont 
 {
     display:block;
     width:960px;
     margin-top:20px;
+    background-color:#FFFFFF;
+    border:1px solid #000000;
+    padding-top:20px;
+    padding-left:20px;
 }
 div.dagcont a
 {
@@ -169,3 +213,90 @@ div.dagcont a:hover {
     text-decoration:underline;
 }
 /*EndBandDetail*/
+/*backlink*/
+.backLink {
+    font-size:24px;
+}
+/*EndBackLink*/
+/*errorMessage*/
+.errormsg {
+    color:red;
+    font-size:18px;
+}
+/*EndErrorMessage*/
+/*ticketoverzicht*/
+.ticketoverzicht {
+    border-collapse:collapse;
+    border:1px solid #000000;
+    width:960px;
+}
+.ticketoverzicht th{
+    background-color:#FF8400;
+    text-align:center;
+    border:1px solid #000000;
+}
+.ticketoverzicht td{
+    background-color:#ffffff;
+    text-align:center;
+    border-bottom:1px solid #000000;
+}
+/*Endticketoverzicht*/
+/*Homeimg*/
+#Homeimage {
+    width: 960px;
+    border:1px solid #FF8400;
+    background-color:#FFFFFF;
+    margin-bottom:20px;
+}
+#Homeimage img{
+    width:920px;
+    margin:20px;
+    border:1px solid #FF8400;
+}
+/*EndHomeImg*/
+/*LoginCont*/
+#logincont {
+    margin-left:auto;
+    margin-right:auto;
+    width:410px;
+    border:1px solid #FF8400;
+    background-color:#FFFFFF;
+    border-radius:15px;
+    padding-left:70px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+/*EndLoginCont*/
+/*RegisterCont*/
+#RegisterCont {
+    margin-left:auto;
+    margin-right:auto;
+    width:410px;
+    border:1px solid #FF8400;
+    background-color:#FFFFFF;
+    border-radius:15px;
+    padding-left:70px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+#RegisterCont h2{
+    font-size:24px;
+}
+/*EndRegisterCont*/
+
+@media only screen and (max-width:600px) {
+    #Homeimage img {
+        width: 460px;
+    }
+    #Homeimage {
+    width: 500px;
+}
+}
+@media only screen and (max-width:400px) {
+        #Homeimage {
+            width:300px;
+        }
+    #Homeimage img {
+        width: 260px;
+    }
+}

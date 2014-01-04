@@ -17,17 +17,16 @@ namespace Project
     public class Ticket : IDataErrorInfo
     {
         public string ID { get; set; }
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [Required(ErrorMessage = "De naam is verplicht")]
+        [StringLength(50, MinimumLength = 3,ErrorMessage="Moet langer zijn dan 3 tekens maar niet groter dan 50")]
         public string TicketHolder { get; set; }
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [Required(ErrorMessage = "Het email is verplicht")]
+        [StringLength(50, MinimumLength = 3,ErrorMessage="Moet langer zijn dan 3 tekens maar niet groter dan 50")]
         public string TicketHolderEmail { get; set; }
-        [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [Required (ErrorMessage="Je moet een type aanduiden")]
         public TicketType TicketType { get; set; }
-        [Required]
-        [Range(1, 1000000)]
+        [Required(ErrorMessage = "Een aantal is verplicht")]
+        [Range(1, 1000000,ErrorMessage="Je moet minimum 1 ticket bestellen")]
         public int Amount { get; set; }
         public DateTime OrderDate { get; set; }
         public string EntryName { get; set; }
@@ -61,7 +60,19 @@ namespace Project
         {
             Database.ModifyData("DELETE FROM tbl_ticket WHERE ID=@id", Database.AddParameter("@id", SelectedTicket.ID));
         }
-
+        public static ObservableCollection<Ticket> GetUserTicket(string name)
+        {
+            ObservableCollection<Ticket> tickets = new ObservableCollection<Ticket>();
+            DbDataReader reader = Database.GetData("SELECT tbl_ticket.ID as TicketId,tbl_ticketType.ID as TypeId ,Ticketholder,TicketholderEmail, EntryName, Amount, OrderDate,TicketName,Price,Available FROM tbl_ticketType,tbl_ticket WHERE tbl_ticketType.ID=tbl_ticket.TicketType AND EntryName=@name"
+                ,Database.AddParameter("@name",name)
+                );
+            foreach (IDataRecord db in reader)
+            {
+                tickets.Add(Create(db));
+            }
+            reader.Close();
+            return tickets;
+        }
         public static ObservableCollection<Ticket> GetTicketsZoek(string EntryName, string Name, Project.TicketType ticketType)
         {
             string ticket="";
@@ -88,11 +99,15 @@ namespace Project
 
         public static void AddTicket(Ticket FormTicket)
         {
+            if (FormTicket.EntryName == "" || FormTicket.EntryName == null)
+            {
+                FormTicket.EntryName = "Admin";
+            }
             Database.ModifyData("INSERT INTO tbl_ticket (TicketHolder,TicketHolderEmail,TicketType,EntryName,Amount,OrderDate) VALUES (@holder,@holderemail,@type,@entryname,@amount,@date)",
                 Database.AddParameter("@holder",FormTicket.TicketHolder),
                 Database.AddParameter("@holderemail",FormTicket.TicketHolderEmail),
                 Database.AddParameter("@type",FormTicket.TicketType.ID),
-                Database.AddParameter("@entryname","Admin"),
+                Database.AddParameter("@entryname",FormTicket.EntryName),
                 Database.AddParameter("@amount",FormTicket.Amount),
                 Database.AddParameter("@date",DateTime.Now)
                 );

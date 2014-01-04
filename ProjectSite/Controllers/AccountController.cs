@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using ProjectSite.Filters;
 using ProjectSite.Models;
+using Project.Model;
 
 namespace ProjectSite.Controllers
 {
@@ -80,6 +81,7 @@ namespace ProjectSite.Controllers
                 try
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    Database.ModifyData("UPDATE UserProfile SET Email=@email WHERE UserName=@name",Database.AddParameter("@email",model.Email),Database.AddParameter("@name",model.UserName));
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }

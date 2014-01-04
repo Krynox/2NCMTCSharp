@@ -1,0 +1,35 @@
+﻿@model Models.NewsFeed
+
+@{
+    ViewBag.Title = "Create";
+}
+<div id="logincont">
+<h2>Nieuw Bericht</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>NewsFeed</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Message,"Bericht")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Message)
+            @Html.ValidationMessageFor(model => model.Message)
+        </div>
+
+        <p>
+            <input type="submit" value="Toevoegen" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Terug naar lijst", "Index")
+</div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

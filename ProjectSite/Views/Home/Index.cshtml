@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Home";
 }
-
+<div id="Homeimage"><img src="~/Images/homepage.jpg"/></div>
 @foreach (var item in Model) {
     <div class="displaycont">
             <h3>@Html.DisplayFor(modelItem => item.Name)</h3>

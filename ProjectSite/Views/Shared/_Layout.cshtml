@@ -12,19 +12,28 @@
         <header>
             <div class="content-wrapper">
                 <div>
-                    <p class="site-title">@Html.ActionLink("Electronic Rampage", "Index", "Home")</p>
+                    <p class="Titel">@Html.ActionLink("Electronic Rampage", "Index", "Home")</p>
                 </div>
-                <div class="float-right">
-                    <section id="login">
+                <div id="loginknoppen">
+                    <section>
                         @Html.Partial("_LoginPartial")
                     </section>
                 </div>
-                <div class="float-left">
+                <div>
                     <nav>
-                        <ul id="menu">
+                        <ul id="mainmenu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("Line-Up", "Index", "Lineup")</li>
-                            <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
+                            @{
+                                if(User.IsInRole("Admin"))
+                                {
+                                    <li>@Html.ActionLink("Tickets", "Admin", "Ticket")</li>
+                                    <li>@Html.ActionLink("News Beheer", "Index", "Admin")</li>
+                                }else{
+                                    <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
+                                }
+                             }
+
                         </ul>
                     </nav>
                 </div>
@@ -40,6 +49,7 @@
             <div class="content-wrapper">
                 <div class="float-left">
                     <p>&copy; @DateTime.Now.Year - James De Ridder Electronic Rampage</p>
+                    <a href="@Url.Action("Rss","Api")"><img src='~/Images/rss.jpg' width='32' height='32' /></a>
                 </div>
             </div>
         </footer>

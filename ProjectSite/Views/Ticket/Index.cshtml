@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Project.Ticket>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Mijn Tickets</h2>
+@if(!User.IsInRole("Admin"))
+{
+    @Html.ActionLink("Ticket Bestellen", "BestelTicket", "Ticket")
+}
+<table class="ticketoverzicht">
+    <tr>
+        <th>
+            Naam Tickethouder
+        </th>
+        <th>
+            E-mail Tickethouder
+        </th>
+        <th>
+            Aantal Tickets
+        </th>
+        <th>
+            Order datum
+        </th>
+        <th>Ticket</th>
+        <th>Eenheids Prijs</th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketHolder)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketHolderEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDate)
+        </td>
+         <td>
+            @Html.DisplayFor(modelItem => item.TicketType.Name)
+        </td>
+        <td>
+            € @Html.DisplayFor(modelItem => item.TicketType.Price)
+        </td>
+    </tr>
+}
+
+</table>

@@ -8,7 +8,9 @@
 @foreach (var item in Model.Dates) {
 
             <a href="@Url.Action("ChangeDate", "Lineup", new { day=@item},null)">@Html.DisplayFor(modelItem => item)</a>
+    
 }
+    <div class="clear">&nbsp;</div>
 </div>
 <div class="clear">&nbsp;</div>
 

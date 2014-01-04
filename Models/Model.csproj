@@ -52,6 +52,7 @@
     <Compile Include="Festival.cs" />
     <Compile Include="Genre.cs" />
     <Compile Include="LineUp.cs" />
+    <Compile Include="NewsFeed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stage.cs" />
     <Compile Include="Ticket.cs" />
