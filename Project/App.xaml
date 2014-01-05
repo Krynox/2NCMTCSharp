@@ -21,7 +21,7 @@
           <Setter Property="WindowStyle" Value="None" />
         </Style>
         <Style x:Key="Logo" TargetType="{x:Type TextBlock}">
-          <Setter Property="Background" Value="#FFFFFFFF"/>
+          <Setter Property="Background" Value="#2a2a2a"/>
           <Setter Property="Foreground" Value="#FFFF9119" />
           <Setter Property="FontFamily" Value="Ubuntu" />
           <Setter Property="FontSize" Value="72" />
@@ -29,7 +29,7 @@
           <Setter Property="Padding" Value="50,20,2.5,30" />
         </Style>
         <Style x:Key="Menu" TargetType="{x:Type Button}">
-          <Setter Property="Background" Value="#FF01b4f6" />
+            <Setter Property="Background" Value="#FFFF9119" />
           <Setter Property="Foreground" Value="#FFFFFFFF" />
           <Setter Property="FontFamily" Value="Ubuntu" />
           <Setter Property="FontSize" Value="36" />
@@ -47,7 +47,7 @@
                 <ControlTemplate.Triggers>
                   <Trigger Property="IsMouseOver" Value="True">
                     <Setter TargetName="border" Property="BorderBrush" Value="#FFFFFFFF" />
-                    <Setter Property="Foreground" Value="#FFFFFF00" />
+                    <Setter Property="Foreground" Value="#FF000000" />
                   </Trigger>
                 </ControlTemplate.Triggers>
               </ControlTemplate>
@@ -220,7 +220,7 @@
           </Style.Triggers>
         </Style>
         <Style x:Key="GridViewHeader" TargetType="{x:Type GridViewColumnHeader}">
-          <Setter Property="Background" Value="#FF01b4f6" />
+            <Setter Property="Background" Value="#FF6a6868" />
           <Setter Property="Foreground" Value="#FFFFFFFF" />
           <Setter Property="FontFamily" Value="Ubuntu" />
           <Setter Property="FontSize" Value="16" />
@@ -234,13 +234,14 @@
           <Setter Property="Height" Value="150" />
         </Style>
         <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
-          <Setter Property="Background" Value="#FF95ceee" />
-          <Setter Property="FontSize" Value="14"/>
+          <Setter Property="Background" Value="#FF8f8d8d" />
+            <Setter Property="Foreground" Value="#FFFFFFFF"/>
+            <Setter Property="FontSize" Value="14"/>
           <Setter Property="HorizontalContentAlignment" Value="Stretch" />
           <Setter Property="VerticalAlignment" Value="Stretch"/>
         </Style>
         <Style x:Key="GridViewHeaderId" TargetType="{x:Type GridViewColumnHeader}">
-          <Setter Property="Background" Value="#FF01b4f6" />
+          <Setter Property="Background" Value="#FF6a6868" />
           <Setter Property="Foreground" Value="#FFFFFFFF" />
           <Setter Property="FontFamily" Value="Ubuntu" />
           <Setter Property="FontSize" Value="20" />

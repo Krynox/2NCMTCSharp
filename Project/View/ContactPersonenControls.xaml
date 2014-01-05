@@ -117,7 +117,7 @@
                 <Button Content="Opslaan" Grid.Column="1" Grid.Row="2" Style="{StaticResource ZoekButton}" Command="{Binding AddContactType,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </WrapPanel>
-        <ListView x:Name="lstContact"  ItemsSource="{Binding ContactList}" Height="{Binding WindowHeight}" SelectedItem="{Binding SelectedContact}" Grid.Column="0" Grid.Row="0" Background="#FF95ceee" BorderThickness="0" Style="{StaticResource ListViewStyle}">
+        <ListView x:Name="lstContact"  ItemsSource="{Binding ContactList}" Height="{Binding WindowHeight}" SelectedItem="{Binding SelectedContact}" Grid.Column="0" Grid.Row="0" BorderThickness="0" Style="{StaticResource ListViewStyle}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn HeaderContainerStyle="{StaticResource GridViewHeaderId}" Header="ID" DisplayMemberBinding="{Binding ID}" />

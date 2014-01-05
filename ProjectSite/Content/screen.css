@@ -1,5 +1,5 @@
 ﻿body {
-    background-color:#FF8400;
+    background-color:#2a2a2a;
 }
 h2 {
     font-size:30px;
@@ -7,11 +7,9 @@ h2 {
 /*Titel*/
 .Titel a{
     font-size:42px;
-    color:#FFFFFF;
+    color:#FF8400;
     text-decoration:none;
     font-weight:800;
-    border-bottom:1px solid #fff;
-
 }
 /*EndTitel*/
 /*loginknoppen*/
@@ -33,6 +31,7 @@ h2 {
 }
 #logouttext {
     float:right;
+    color:#FFFFFF;
 }
 #logouttext a{
     color:#FFFFFF;
@@ -119,8 +118,6 @@ div.dagcont
     display:block;
     width:960px;
     margin-top:20px;
-    background-color:#FFFFFF;
-    border:1px solid #000000;
     padding-top:20px;
     padding-left:20px;
 }
@@ -128,7 +125,7 @@ div.dagcont a
 {
     display:block;
     height:50px;
-    background-color:#0098d8;
+    background-color:#2a2a2a;
     width:100px;
     font-size:18px;
     color:#FFFFFF;
@@ -283,7 +280,23 @@ div.dagcont a:hover {
     font-size:24px;
 }
 /*EndRegisterCont*/
-
+/*Footer*/
+.contentwrapper {
+     margin: 0 auto;
+    max-width: 960px;
+}
+.contentwrapper div{
+    background-color:#2a2a2a;
+    color:#FFFFFF;
+}
+.contentfooter {
+    background-color:#2a2a2a;
+    clear:both;
+    position:fixed;
+    bottom:0;
+    width:100%;
+}
+/*FooterEnd*/
 @media only screen and (max-width:600px) {
     #Homeimage img {
         width: 460px;
