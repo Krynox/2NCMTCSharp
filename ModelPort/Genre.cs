@@ -5,13 +5,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Project
+namespace ModelPort
 {
     public class Genre
     {
         public string ID { get; set; }
         public string GenreName { get; set; }
-
-       
     }
 }

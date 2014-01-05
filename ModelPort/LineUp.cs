@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Project
+namespace ModelPort
 {
     public class LineUp
     {

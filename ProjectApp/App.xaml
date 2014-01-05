@@ -1,0 +1,28 @@
+﻿<Application
+    x:Class="ProjectApp.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ProjectApp"
+    xmlns:localData="using:ProjectApp.Data"
+    xmlns:dataModel="using:ProjectApp.DataModel"
+    >
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- 
+                    Styles that define common aspects of the platform look and feel
+                    Required by Visual Studio project and item templates
+                 -->
+                <ResourceDictionary Source="Common/StandardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Application-specific resources -->
+            <dataModel:ByteToImageConverter x:Key="ImageConverter" x:Name="ImageConverter"></dataModel:ByteToImageConverter>
+            <dataModel:BandVM x:Key="BandInstance"></dataModel:BandVM>
+            <x:String x:Key="AppName">Electronic Rampage</x:String>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

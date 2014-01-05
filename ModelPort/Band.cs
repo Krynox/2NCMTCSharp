@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace Project
+namespace ModelPort
 {
     public class Band 
     {
@@ -21,7 +21,9 @@ namespace Project
         public string Twitter { get; set; }
 
         public string Facebook { get; set; }
-        public ObservableCollection<Genre> Genres{ get; set; }
+
+        public ObservableCollection<Genre> Genres { get; set; }
+
         public Band()
         {
             Genres = new ObservableCollection<Genre>();
